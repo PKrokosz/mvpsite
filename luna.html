@@ -53,33 +53,18 @@
     <input type="text" id="luna-input" placeholder="Zadaj pytanie lub zostaw sygnał...">
   </div>
 
-  <script>
+  <script type="module">
+    import { getLunaResponse } from './luna-ai.js';
+
     const log = document.getElementById('luna-log');
     const input = document.getElementById('luna-input');
-    let responses = {};
 
-    fetch('responses.json')
-      .then(res => res.json())
-      .then(data => { responses = data; });
-
-    function getLunaResponse(inputText) {
-      const keys = Object.keys(responses);
-      const lower = inputText.toLowerCase();
-
-      for (let key of keys) {
-        if (lower.includes(key)) {
-          return `LUNA: ${responses[key]}`;
-        }
-      }
-      return `LUNA: ${responses['default']}`;
-    }
-
-    input.addEventListener('keydown', function(event) {
+    input.addEventListener('keydown', async function(event) {
       if (event.key === 'Enter') {
         const msg = input.value.trim();
         if (!msg) return;
         log.innerHTML += `\nTY: ${msg}`;
-        let response = getLunaResponse(msg);
+        const response = await getLunaResponse(msg);
         log.innerHTML += `\n${response}`;
         log.scrollTop = log.scrollHeight;
         input.value = '';
