@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luna AI Interface</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #000013;
+      color: #66ffe0;
+      font-family: 'VT323', monospace;
+      padding: 40px;
+    }
+    .interface {
+      max-width: 800px;
+      margin: auto;
+      border: 2px dashed #66ffe0;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #ff66cc;
+    }
+    .log {
+      background: #000;
+      border: 1px solid #66ffe0;
+      padding: 20px;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #66ffe0;
+      color: #fff;
+      font-family: inherit;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="interface">
+    <h1>LUNA AI / ::Session:: / Mental Signal Link</h1>
+    <div class="log" id="luna-log">
+      LUNA: Cześć, Operatorze. Jestem gotowa do połączenia myślowego.
+    </div>
+    <input type="text" id="luna-input" placeholder="Zadaj pytanie lub zostaw sygnał...">
+  </div>
+
+  <script>
+    const log = document.getElementById('luna-log');
+    const input = document.getElementById('luna-input');
+    let responses = {};
+
+    fetch('responses.json')
+      .then(res => res.json())
+      .then(data => { responses = data; });
+
+    function getLunaResponse(inputText) {
+      const keys = Object.keys(responses);
+      const lower = inputText.toLowerCase();
+
+      for (let key of keys) {
+        if (lower.includes(key)) {
+          return `LUNA: ${responses[key]}`;
+        }
+      }
+      return `LUNA: ${responses['default']}`;
+    }
+
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        const msg = input.value.trim();
+        if (!msg) return;
+        log.innerHTML += `\nTY: ${msg}`;
+        let response = getLunaResponse(msg);
+        log.innerHTML += `\n${response}`;
+        log.scrollTop = log.scrollHeight;
+        input.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
