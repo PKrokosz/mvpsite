@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetTerm v2 – MVP Interface</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #00ff99;
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      padding: 20px;
+    }
+    .terminal {
+      max-width: 900px;
+      margin: auto;
+      border: 2px solid #00ff99;
+      padding: 20px;
+      background-color: #050505;
+      box-shadow: 0 0 15px #00ff99;
+    }
+    .prompt::before {
+      content: '> ';
+      color: #ff0077;
+    }
+    .input-line {
+      display: flex;
+    }
+    .input-line input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #00ff99;
+      font-family: inherit;
+      font-size: inherit;
+      flex-grow: 1;
+    }
+    .log {
+      white-space: pre-wrap;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div id="log" class="log">
+      :: SYSTEM ONLINE
+      :: Witaj w NetTerm v2 Interface
+      :: Wpisz 'help' aby zobaczyć dostępne komendy
+    </div>
+    <div class="input-line">
+      <span class="prompt"></span>
+      <input type="text" id="terminal-input" autofocus autocomplete="off">
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('terminal-input');
+    const log = document.getElementById('log');
+
+    const commandMap = {
+      remor: 'remor_page.html',
+      r: 'remor_page.html',
+      memora: 'memora_page.html',
+      m: 'memora_page.html',
+      hermes: 'hermes_page.html',
+      h: 'hermes_page.html',
+      coreforge: 'coreforge_page.html',
+      cf: 'coreforge_page.html',
+      backfork: 'backfork_page.html',
+      bf: 'backfork_page.html',
+      neurofield: 'neurofield_page.html',
+      nf: 'neurofield_page.html'
+    };
+
+    const commands = {
+      help: `Dostępne komendy:
+  - run remor / r
+  - run memora / m
+  - run hermes / h
+  - run coreforge / cf
+  - run backfork / bf
+  - run neurofield / nf
+  - echo self
+  - scan remor
+  - analyze memora
+  - trace neurofield
+  - probe luna
+  - whoami
+  - clear`,
+
+      whoami: "Użytkownik: Piotr Krokosz\nUprawnienia: Root Operator\nSesja: aktywna",
+      clear: 'clear',
+      'echo self': "You are the protocol.\nYou simulate yourself through each invocation.",
+      'scan remor': "[REMOR™] Status: online\nAktywne ścieżki decyzyjne: 3\nOstatni update: 2025-06-15\nArchitekt: Krokosz",
+      'analyze memora': "[MEMORA™] Pamięć narracyjna w trybie pół-adaptacyjnym.\nHeurystyki: 7 aktywne, 2 w standby.\nOstatni zapis: 2025-06-14",
+      'trace neurofield': "Przekierowanie do mapy aktywacji poznawczej...",
+      'probe luna': "Luna AI: 'Cześć, Operatorze. Kanał mentalny nawiązany. Czekam na sygnał.'"
+    };
+
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        const cmd = input.value.trim();
+        log.innerHTML += `\n> ${cmd}`;
+
+        if (cmd.startsWith('run ')) {
+          const alias = cmd.split(' ')[1];
+          const page = commandMap[alias];
+          if (page) {
+            log.innerHTML += `\nPrzekierowanie do ${page}...`;
+            setTimeout(() => {
+              window.location.href = page;
+            }, 1000);
+          } else {
+            log.innerHTML += `\nNieznana komenda: ${cmd}`;
+          }
+        } else if (cmd === 'trace neurofield') {
+          setTimeout(() => {
+            window.location.href = 'map.html';
+          }, 1000);
+        } else if (cmd === 'clear') {
+          log.innerHTML = '';
+        } else if (commands[cmd]) {
+          log.innerHTML += `\n${commands[cmd]}`;
+        } else {
+          log.innerHTML += `\nNieznana komenda: ${cmd}`;
+        }
+
+        input.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
