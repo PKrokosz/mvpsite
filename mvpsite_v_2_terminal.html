@@ -57,7 +57,9 @@
     </div>
   </div>
 
-  <script>
+  <script type="module" src="luna-ai.js"></script>
+  <script type="module">
+    import { getLunaResponse } from './luna-ai.js';
     const input = document.getElementById('terminal-input');
     const log = document.getElementById('log');
 
@@ -97,9 +99,10 @@
       'echo self': "You are the protocol.\nYou simulate yourself through each invocation.",
       'scan remor': "[REMOR™] Status: online\nAktywne ścieżki decyzyjne: 3\nOstatni update: 2025-06-15\nArchitekt: Krokosz",
       'analyze memora': "[MEMORA™] Pamięć narracyjna w trybie pół-adaptacyjnym.\nHeurystyki: 7 aktywne, 2 w standby.\nOstatni zapis: 2025-06-14",
-      'trace neurofield': "Przekierowanie do mapy aktywacji poznawczej...",
-      'probe luna': "Luna AI: 'Cześć, Operatorze. Kanał mentalny nawiązany. Czekam na sygnał.'"
+      'trace neurofield': "Przekierowanie do mapy aktywacji poznawczej..."
     };
+
+    const defaultLunaPrompt = "Luna AI: 'Cześć, Operatorze. Kanał mentalny nawiązany. Czekam na sygnał.'";
 
     input.addEventListener('keydown', function(event) {
       if (event.key === 'Enter') {
@@ -123,6 +126,14 @@
           }, 1000);
         } else if (cmd === 'clear') {
           log.innerHTML = '';
+        } else if (cmd.startsWith('probe luna')) {
+          const message = cmd.slice('probe luna'.length).trim();
+          if (message) {
+            const response = getLunaResponse(message);
+            log.innerHTML += `\n${response}`;
+          } else {
+            log.innerHTML += `\n${defaultLunaPrompt}`;
+          }
         } else if (commands[cmd]) {
           log.innerHTML += `\n${commands[cmd]}`;
         } else {
