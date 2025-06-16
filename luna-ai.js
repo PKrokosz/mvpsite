@@ -1,10 +1,12 @@
-let responses = {};
-
-fetch('responses.json')
+let responses;
+const responsesPromise = fetch('responses.json')
   .then(res => res.json())
-  .then(data => { responses = data; });
+  .then(data => {
+    responses = data;
+  });
 
-function getLunaResponse(inputText) {
+async function getLunaResponse(inputText) {
+  await responsesPromise;
   const keys = Object.keys(responses);
   const lower = inputText.toLowerCase();
 
