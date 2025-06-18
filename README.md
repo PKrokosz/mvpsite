@@ -14,9 +14,6 @@ mvpsite-main/
 ├── terminal.js                # Silnik odpowiedzi (frontend JS - fetch)
 ├── responses.json             # Baza danych odpowiedzi (autolimes-ready)
 ├── mvpsite_v_2_terminal.html # Alternatywny terminal (legacy/dev)
-├── /dev_tools/                # Skrypty developerskie
-│   ├── validate_responses.js  # Walidacja triggerów, aliasów, braków
-│   └── expand_json.js         # Iteracyjne rozwijanie bazy
 └── README.md
 ```
 
@@ -49,8 +46,8 @@ node luna.js
 
 ## 🔧 Dev Tools (opcjonalne)
 
-- `validate_responses.js` → wykrywa pętle, nieistniejące aliasy, duplikaty
-- `expand_json.js` → automatyczne iteracje bazy danych do wersji `autolimes`
+Repozytorium nie zawiera domyślnie skryptów developerskich. W razie potrzeby
+możesz utworzyć własne narzędzia do walidacji i rozszerzania plików JSON.
 
 ---
 
