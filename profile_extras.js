@@ -63,10 +63,11 @@ function routeCommandExtended(command) {
 
   const result = profiles[name];
   if (!result) {
-    const errorLine = document.createElement("div");
-    errorLine.classList.add("terminal-line");
-    errorLine.textContent = `[ERROR] PROFIL '${name}' NIE ISTNIEJE`;
-    terminal.appendChild(errorLine);
+    const errDiv = Object.assign(document.createElement('div'), {
+      className: 'terminal-line',
+      textContent: `[ERROR] PROFIL '${name}' NIE ISTNIEJE`
+    });
+    terminal.appendChild(errDiv);
     return true;
   }
 
