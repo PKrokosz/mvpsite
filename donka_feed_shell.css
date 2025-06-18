@@ -1,0 +1,30 @@
+#info-hud, #event-feed, #ad-banner, #encrypt-feed, #zapis-trace, #data-dump, #glitch-layer {
+  overflow-y: auto;
+}
+
+.flash-banner {
+  animation: banner-flash 1s steps(2, start) infinite;
+}
+@keyframes banner-flash {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.fade-encrypt {
+  animation: encrypt-fade 6s ease-out forwards;
+}
+@keyframes encrypt-fade {
+  from { opacity: 1; }
+  to { opacity: 0.4; }
+}
+
+@media (max-width: 768px) {
+  #main-container {
+    flex-direction: column;
+  }
+  #feed-zone {
+    height: 30vh;
+    border-left: none;
+    border-top: 2px solid #111;
+  }
+}
