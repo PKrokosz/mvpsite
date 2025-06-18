@@ -1,21 +1,59 @@
-let responses;
-const responsesPromise = fetch('responses.json')
-  .then(res => res.json())
-  .then(data => {
-    responses = data;
-  });
+// luna.js — Narracyjny Terminal Fabularny (finalny build)
 
-async function getLunaResponse(inputText) {
-  await responsesPromise;
-  const keys = Object.keys(responses);
-  const lower = inputText.toLowerCase();
+const fs = require('fs');
+const path = require('path');
 
-  for (let key of keys) {
-    if (lower.includes(key)) {
-      return `LUNA: ${responses[key]}`;
-    }
+// 📦 Załaduj pełną bazę odpowiedzi
+const responses = JSON.parse(fs.readFileSync(path.join(__dirname, 'responses_final_FOR_DEPLOY_luna_autolimes_full.json'), 'utf8'));
+
+// 🧠 RUNTIME MEMORY
+const sessionMemory = {
+  lastTrigger: null,
+  lastScene: null,
+  activeTryb: 'tryb:neutralny',
+  glitchwaveLevel: 'napięcie:glitchwave:średnie',
+  history: [],
+};
+
+// 🧩 GŁÓWNA FUNKCJA INTERPRETACYJNA
+function interpretResponse(trigger) {
+  sessionMemory.lastTrigger = trigger;
+  sessionMemory.history.push(trigger);
+
+  // 🎛️ Tryby
+  if (trigger.startsWith('tryb:')) {
+    sessionMemory.activeTryb = trigger;
+    return `[TRYB ZMIENIONY] ${trigger.replace('tryb:', '').toUpperCase()} aktywny.`;
   }
-  return `LUNA: ${responses['default']}`;
+
+  // 🧭 Sceny
+  if (trigger.startsWith('scena:')) {
+    sessionMemory.lastScene = trigger;
+  }
+
+  // 🧍 NPC i tryb ukrycia
+  if (sessionMemory.activeTryb === 'tryb:ukryty' && trigger.startsWith('npc:')) {
+    return '[TRYB:UKRYTY] NPC niewidoczny dla systemu.';
+  }
+
+  // ⚡ Reakcje napięcia
+  if (sessionMemory.glitchwaveLevel === 'napięcie:glitchwave:wysokie' && trigger.includes('donka')) {
+    return '[PRZECIĄŻENIE] Donka odpowiada nie wprost: ' + (responses['donka'] || '...');
+  }
+
+  // 🔁 Alias
+  if (responses[`alias:${trigger}`]) {
+    const aliasTo = responses[`alias:${trigger}`];
+    return responses[aliasTo] || `[ALIAS] Brak treści dla: ${aliasTo}`;
+  }
+
+  // ✅ Główna odpowiedź lub fallback
+  return responses[trigger] || responses['fallback:niezrozumiane'] || '[FALLBACK] Brak odpowiedzi.';
 }
 
-export { getLunaResponse };
+// 🛠️ EXPORTY
+module.exports = {
+  interpretResponse,
+  sessionMemory,
+  responses
+};
