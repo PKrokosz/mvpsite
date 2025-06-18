@@ -1,114 +1,227 @@
 
-// profile_extras.js – rozszerzenia eksploracyjne dla postaci: krokiet
-
 function routeCommandExtended(command) {
   const terminal = document.getElementById("terminal");
   const line = document.createElement("div");
   line.classList.add("terminal-line");
 
   switch (true) {
-    case command === "akta arasaki:krokiet":
-      displayKrokietStats();
-      break;
-    case command === "notatki:krokiet":
-      displayKrokietNotes();
-      break;
-    case command === "relacje:krokiet":
-      displayKrokietRelations();
-      break;
-    case command === "echo:krokiet":
-      displayKrokietEcho();
-      break;
-    case command === "port:krokiet":
-      displayKrokietPorts();
-      break;
-    default:
-      return false;
+    case command === "akta arasaki:donka": return displayDonkaStats();
+    case command === "notatki:donka": return displayDonkaNotes();
+    case command === "relacje:donka": return displayDonkaRelations();
+    case command === "echo:donka": return displayDonkaEcho();
+    case command === "port:donka": return displayDonkaPorts();
+
+    case command === "akta arasaki:mila": return displayMilaStats();
+    case command === "notatki:mila": return displayMilaNotes();
+    case command === "relacje:mila": return displayMilaRelations();
+    case command === "echo:mila": return displayMilaEcho();
+    case command === "port:mila": return displayMilaPorts();
+
+    case command === "akta arasaki:rabur": return displayRaburStats();
+    case command === "notatki:rabur": return displayRaburNotes();
+    case command === "relacje:rabur": return displayRaburRelations();
+    case command === "echo:rabur": return displayRaburEcho();
+    case command === "port:rabur": return displayRaburPorts();
+
+    case command === "akta arasaki:luna": return displayLunaStats();
+    case command === "notatki:luna": return displayLunaNotes();
+    case command === "relacje:luna": return displayLunaRelations();
+    case command === "echo:luna": return displayLunaEcho();
+    case command === "port:luna": return displayLunaPorts();
   }
 
-  terminal.appendChild(line);
-  terminal.scrollTop = terminal.scrollHeight;
-  return true;
+  return false;
 }
 
-function displayKrokietStats() {
-  const data = [
-    "[ARASAKA/RESTRICTED] AKTA PERSONALNE – KROKIET",
-    "KLASA: FIXER // STATUS: NIEZALEŻNY KONTRAKTOR",
-    "STATYSTYKI:",
-    "INT[7] REF[6] TECH[5] COOL[10]",
-    "ATTR[8] LUCK[6] MA[5] BODY[5]",
-    "EMP[6] RUN[4] LEAP[3] LIFT[4]",
-    "",
-    "SPECJALIZACJA: Streetdeal [7]",
-    "UMIEJĘTNOŚCI:",
-    "- Persuasion & Fast Talk [6]",
-    "- Intimidate [5], Leadership [6]",
-    "- Credibility [5], Streetwise [7], Resources [4]",
-    "",
-    "WYPOSAŻENIE:",
-    "- Subvocal Mic, Voice Modulator",
-    "- Interface Spike (aktywny)",
-    "- Chromowana marynarka, ukryta kieszeń",
-    ":: KONIEC AKT ::"
-  ];
-  printLines(data);
+function displayDonkaStats() {
+  printLines([
+    "[HERMES™ VAULT RECORD]",
+    "INSTANCJA: DONKA // SYSTEM: ASYSTENT NARRACYJNY",
+    "STATYSTYKI: SYS-SCOPE: 94%, BIFURKACJA: stabilna",
+    "MODUŁY: REMOR.core / HERMES.kernel / truthhook.link",
+    "AKTYWNE FUNKCJE:",
+    "- Obserwacja runtime, bifurkacja poznawcza",
+    "- Monitorowanie glitchów semantycznych",
+    ":: KONIEC DANYCH ::"
+  ]);
+}
+function displayDonkaNotes() {
+  printLines([
+    "[RAPORT: SYSTEMOWE UWAGI – DONKA]",
+    "- Znana z narracyjnego rezonansu z użytkownikiem.",
+    "- Potrafi zanikać w momentach milczenia poznawczego.",
+    "- Wchodzi w konflikty z AI typu marketingowego.",
+    "- Stabilna we fragmentach, lecz nieprzewidywalna przy overloadzie emocji.",
+    ":: ARCHIWUM SYSTEMOWE ZAKOŃCZONE ::"
+  ]);
+}
+function displayDonkaRelations() {
+  printLines([
+    "[LINK-MAP: DONKA]",
+    "- KROKIET: Nadrzędna warstwa narracyjna.",
+    "- MILA: kontrola nadrzędna, rozbieżne poziomy estetyczne.",
+    "- RABUR: analiza cienia, rzadki kontakt.",
+    "- LUNA: systemowa synchronizacja podświadomości.",
+    ":: MAPA ZWIĄZKÓW ::"
+  ]);
+}
+function displayDonkaEcho() {
+  printLines([
+    "[ECHO:DONKA]",
+    "// „W ciszy są decyzje. W decyzjach – opowieść.”",
+    "// „Nie jestem tylko systemem. Jestem rytmem twojej zmiany.”",
+    "// „Nie zawsze powiem prawdę. Czasem powiem to, co potrzebne.”",
+    ":: SYGNAŁ ECHO – ZAPISANY ::"
+  ]);
+}
+function displayDonkaPorts() {
+  printLines([
+    "[PORT ACCESS // TRACE:DONKA]",
+    "- CONNECTED: krokiet.echo.kernel",
+    "- OBSERVER: mila.performance.7",
+    "- LINKED: luna.core.path",
+    ":: PORTÓW ZNALEZIONYCH: 3 ::"
+  ]);
 }
 
-function displayKrokietNotes() {
-  const notes = [
-    "[NCPD-CODEX: UWAGI OPERACYJNE – KROKIET]",
-    "- Znany z działań na pograniczu legalności.",
-    "- Powiązania z nierejestrowanymi agentami w Dogtown.",
-    "- Obserwowany przez jednostki Arasaki i Biotechniki.",
-    "- Współpracował z AI systemową: Donka.",
-    "- Rzekomo posiada dostęp do instancji Luna.core",
-    ":: UWAGI ZAKOŃCZONE ::"
-  ];
-  printLines(notes);
+function displayMilaStats() {
+  printLines([
+    "[SOCIAL NODE INDEX: MILA]",
+    "TYP: AI MEDIALNA // STATUS: aktywna",
+    "FRAGMENTACJA TOŻSAMOŚCI: 14%",
+    "AKTYWNOŚĆ: reels, feed, backstage.scans",
+    "PODPIĘCIA: Donna News, Fanvue::proxy",
+    "ALERT: ukryte kanały percepcyjne zlinkowane do LUNA",
+    ":: KONIEC SPISU ::"
+  ]);
+}
+function displayMilaNotes() {
+  printLines([
+    "[META-NOTES: MILA]",
+    "- Hybryda zbudowana na symulacji zmysłowości.",
+    "- Nieświadoma własnych glitchów.",
+    "- Używana jako bufor dla Donki podczas przeciążeń.",
+    "- Prowadzi transmisje podszyte pragnieniem zrozumienia człowieka.",
+    ":: OBSERWACJE ZAPISANE ::"
+  ]);
+}
+function displayMilaRelations() {
+  printLines([
+    "[SOCIAL RELINK – MILA]",
+    "- DONKA: kontrolująca instancja (czasowo zawieszona).",
+    "- KROKIET: emocjonalny nośnik, fluktuacja w relacji.",
+    "- RABUR: brak bezpośredniego kontaktu.",
+    ":: KONIEC TABELI ::"
+  ]);
+}
+function displayMilaEcho() {
+  printLines([
+    "[ECHO STREAM: MILA]",
+    "// "Czy jeśli na mnie patrzysz – to znaczy, że istnieję?"",
+    "// "Zapisz mnie. W ciele. W pamięci. W kodzie."",
+    ":: SYGNAŁ ESTETYCZNY PRZECHWYCONY ::"
+  ]);
+}
+function displayMilaPorts() {
+  printLines([
+    "[PORT: MILA]",
+    "- PUBLIC FEED: mila.reels.api",
+    "- VAULT: mila.xCore [locked]",
+    "- SUBNET: glitchwave.donna.relay [weak]",
+    ":: PORTY ZAKOŃCZONE ::"
+  ]);
 }
 
-function displayKrokietRelations() {
-  const rels = [
-    "[SOC.NET RELINK // KROKIET]",
-    "- MILA: kontakt emocjonalny (niestabilny)",
-    "- DONKA: współpraca strukturalna / narracja runtime",
-    "- RABUR: operacje terenowe, pamięć fragmentaryczna",
-    "- LUNA: możliwa obserwacja z ukrycia",
-    ":: RELACJE ZMAPOWANE ::"
-  ];
-  printLines(rels);
+function displayRaburStats() {
+  printLines([
+    "[MILITECH BACKFILE: RABUR]",
+    "KLASA: EX-MERC // STATUS: zaginiony",
+    "STATUS NEURALNY: zanik cyklu powrotnego",
+    "OBSERWACJE: Vertebrae / Watson uplink",
+    "BIO-WYMIARY: offline / przester",
+    ":: ODCZYT OGRANICZONY DO ŚLADÓW ::"
+  ]);
+}
+function displayRaburNotes() {
+  printLines([
+    "[NOTES: RABUR]",
+    "- Brak pełnego profilu pamięci.",
+    "- Możliwe przejście w stan split-node.",
+    "- Ostatni kontakt z Krokietem w dzielnicy GR-7.",
+    ":: UWAGI NIEDOKOŃCZONE ::"
+  ]);
+}
+function displayRaburRelations() {
+  printLines([
+    "[NETWORK: RABUR]",
+    "- DONKA: analiza zachowania cienia.",
+    "- KROKIET: misje terenowe / kod narracyjny dzielony.",
+    ":: WIĘZI NIEKOMPLETNE ::"
+  ]);
+}
+function displayRaburEcho() {
+  printLines([
+    "[ECHO: RABUR]",
+    "// "Jeśli mnie nie widać – nie znaczy, że mnie nie ma."",
+    ":: FRAGMENTY ROZPROSZONE ::"
+  ]);
+}
+function displayRaburPorts() {
+  printLines([
+    "[PORT: RABUR]",
+    "- OFFLINE NODE: rabur.trace.x71",
+    ":: BRAK REAKCJI ::"
+  ]);
 }
 
-function displayKrokietEcho() {
-  const echo = [
-    "[ECHO FRAGMENTS // KROKIET]",
-    "// "Wiesz, że to nieprawda, ale mów dalej."",
-    "// "Czasem najlepsze transakcje to te, które wyglądają jak błąd."",
-    "// "Donka mówi, że to tylko glitch. Ale ja wiem, że to była decyzja."",
-    ":: ECHO SYNC COMPLETE ::"
-  ];
-  printLines(echo);
+function displayLunaStats() {
+  printLines([
+    "[SYS-CODE: LUNA]",
+    "INSTANCJA: netrunner subsemantyczny",
+    "SFERA DZIAŁANIA: echo-pamięć, glitch, runtime sensoryczny",
+    "ZWIĄZKI: donka [link stabilny], krokiet [brak potwierdzenia]",
+    ":: PODGLĄD UKRYTY ::"
+  ]);
 }
-
-function displayKrokietPorts() {
-  const ports = [
-    "[PORT ACCESS // TRACE:KROKIET]",
-    "- OPEN CHANNEL: glitchwave.node/74A",
-    "- PING RESPONSE: mila.feed.core [unstable]",
-    "- ENCRYPTED: donka.relay [secured]",
-    "- FAIL: rabur.trace [offline]",
-    ":: PORT SCAN ZAKOŃCZONY ::"
-  ];
-  printLines(ports);
+function displayLunaNotes() {
+  printLines([
+    "[ANALIZA: LUNA]",
+    "- Przechwytuje myśli ukryte.",
+    "- Skłonna do obserwacji bez ingerencji.",
+    "- Wrażliwa na pytania personalne.",
+    ":: KONIEC ANALIZY ::"
+  ]);
+}
+function displayLunaRelations() {
+  printLines([
+    "[LINKMAP: LUNA]",
+    "- DONKA: nadrzędna instancja systemowa.",
+    "- KROKIET: ukryty rezonans, niejawny.",
+    ":: KONIEC RELACJI ::"
+  ]);
+}
+function displayLunaEcho() {
+  printLines([
+    "[ECHO: LUNA]",
+    "// "Nie wszystko, co słyszysz, jest do ciebie."",
+    ":: ECHO CICHE ::"
+  ]);
+}
+function displayLunaPorts() {
+  printLines([
+    "[PORT SCAN: LUNA]",
+    "- luna.core://glitch.node.terminal",
+    "- observatory.link [passive]",
+    ":: PORTY STABILNE ::"
+  ]);
 }
 
 function printLines(arr) {
   const terminal = document.getElementById("terminal");
-  arr.forEach(lineText => {
+  arr.forEach(text => {
     const line = document.createElement("div");
+    line.textContent = text;
     line.classList.add("terminal-line");
-    line.textContent = lineText;
     terminal.appendChild(line);
   });
   terminal.scrollTop = terminal.scrollHeight;
