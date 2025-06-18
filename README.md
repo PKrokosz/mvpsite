@@ -13,6 +13,8 @@ mvpsite-main/
 │   ├── style.css
 │   ├── terminal_router_final.js
 │   ├── profile_extras.js
+│   ├── corps_render.js
+│   ├── rpk_profiles_cyberpunk2020.json
 │   └── mvpsite_v_2_terminal.html
 ├── v1_luna_legacy/         # Starszy interfejs LUNA (nieaktywny)
 │   ├── luna.html
@@ -30,6 +32,12 @@ mvpsite-main/
 - **v1_luna_legacy** – archiwalny terminal LUNA pozostawiony do ewentualnej reintegracji.
 
 Ukryte polecenie terminala: `inject profile:luna.core` ujawnia wskazówki dotyczące ponownego podłączenia LUNY.
+
+### Multi-source Profile Access
+
+1. `inject profile:<name>` — wyświetla skrócony opis postaci i listę korporacyjnych źródeł danych.
+2. Wpisz `<corp>:<name>` aby otrzymać szczegółowy raport z wybranej korporacji (`arasaka`, `militech`, `ncpd`, `donna`).
+3. Dane pochodzą z pliku `v2_terminal/rpk_profiles_cyberpunk2020.json` i są renderowane przez funkcje w `corps_render.js`.
 
 ---
 

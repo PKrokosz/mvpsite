@@ -1,6 +1,31 @@
 
+let fullProfiles = {};
+fetch('v2_terminal/rpk_profiles_cyberpunk2020.json')
+  .then(r => r.json())
+  .then(data => {
+    data.forEach(p => { fullProfiles[p.id] = p; });
+  });
+
 function routeCommand(command) {
   const terminal = document.getElementById("terminal");
+
+  if (command.includes(":")) {
+    const [corp, profileName] = command.split(":");
+    if (window.corpRenderers && window.corpRenderers[corp]) {
+      const profile = fullProfiles[profileName];
+      if (profile) {
+        window.corpRenderers[corp](profile);
+      } else {
+        const err = document.createElement("div");
+        err.classList.add("terminal-line");
+        err.textContent = `[ERROR] PROFIL '${profileName}' NIE ISTNIEJE`;
+        terminal.appendChild(err);
+      }
+      terminal.scrollTop = terminal.scrollHeight;
+      return;
+    }
+  }
+
   const line = document.createElement("div");
   line.classList.add("terminal-line");
 
@@ -32,7 +57,7 @@ function routeCommand(command) {
       break;
 
     case command === "help":
-      line.textContent = "COMMANDS: inject profile:<name> | trace:<name> | link:<name> | db:search <term> | inject ads_core | clear";
+      line.textContent = "COMMANDS: inject profile:<name> | <corp>:<name> | trace:<name> | link:<name> | db:search <term> | inject ads_core | clear";
       terminal.appendChild(line);
       break;
 
@@ -68,6 +93,13 @@ function displayProfile(name) {
   line.classList.add("terminal-line");
   line.textContent = profiles[name] || `[ERROR] PROFIL '${name}' NIE ISTNIEJE`;
   terminal.appendChild(line);
+
+  if (fullProfiles[name]) {
+    const src = document.createElement("div");
+    src.classList.add("terminal-line");
+    src.textContent = "→ ACCESS SOURCE: arasaka | militech | ncpd | donna";
+    terminal.appendChild(src);
+  }
 }
 
 function showTrace(name) {
