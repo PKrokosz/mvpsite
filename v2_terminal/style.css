@@ -55,6 +55,18 @@ body {
   caret-color: #00ffc3;
 }
 
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+  .terminal {
+    padding: 15px;
+  }
+  .terminal-input {
+    font-size: 0.9em;
+  }
+}
+
 @keyframes flicker {
   0% { opacity: 0.1; }
   50% { opacity: 1; }

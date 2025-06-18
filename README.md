@@ -8,14 +8,28 @@
 
 ```
 mvpsite-main/
-├── index.html                 # Strona główna (opcjonalnie redirect do terminala)
-├── luna.html                  # Terminal webowy (frontend)
-├── luna.js                    # Silnik odpowiedzi (Node.js CLI / server)
-├── terminal.js                # Silnik odpowiedzi (frontend JS - fetch)
-├── responses.json             # Baza danych odpowiedzi (autolimes-ready)
-├── mvpsite_v_2_terminal.html # Alternatywny terminal (legacy/dev)
+├── index.html              # Strona wejściowa (używa v2_terminal)
+├── v2_terminal/            # Aktywny terminal (wersja 2)
+│   ├── style.css
+│   ├── terminal_router_final.js
+│   ├── profile_extras.js
+│   └── mvpsite_v_2_terminal.html
+├── v1_luna_legacy/         # Starszy interfejs LUNA (nieaktywny)
+│   ├── luna.html
+│   ├── luna.js
+│   ├── luna_node.js
+│   └── luna_profiles.js
+├── terminal.js             # Prototypowy silnik odpowiedzi
+├── responses.json          # Baza danych odpowiedzi (autolimes-ready)
 └── README.md
 ```
+
+### Wersje systemu
+
+- **v2_terminal** – aktywna implementacja uruchamiana z `index.html`.
+- **v1_luna_legacy** – archiwalny terminal LUNA pozostawiony do ewentualnej reintegracji.
+
+Ukryte polecenie terminala: `inject profile:luna.core` ujawnia wskazówki dotyczące ponownego podłączenia LUNY.
 
 ---
 
@@ -33,13 +47,13 @@ mvpsite-main/
 
 ```bash
 npm install
-node luna.js
+node v1_luna_legacy/luna.js
 ```
 
 ### 🌐 Tryb przeglądarkowy (Frontend)
 
-1. Upewnij się, że plik `responses.json` znajduje się w katalogu obok `luna.html`
-2. Otwórz `luna.html` w przeglądarce
+1. Upewnij się, że plik `responses.json` znajduje się w katalogu obok `v1_luna_legacy/luna.html`
+2. Otwórz `v1_luna_legacy/luna.html` w przeglądarce
 3. Terminal obsługuje wpisy w polu input i wyświetla odpowiedzi z JSON
 
 ---

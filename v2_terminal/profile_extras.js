@@ -43,7 +43,7 @@ function routeCommandExtended(command) {
       "- Obserwowany przez Arasaka i Biotechnikę",
       "- Kontakt: Mila, Rabur, Donka (niestabilny link)"
     ],
-    rabur: [
+  rabur: [
       "[BLACKNET: DEEP TRACE MODE // PROFILE: RABUR]",
       "Typ: Ex-Mercenary | Frakcja: niezależna",
       "Poziom odporności psychicznej: wysoki",
@@ -51,15 +51,19 @@ function routeCommandExtended(command) {
       "Status: brak jednoznacznej lokalizacji",
       "Ostatni sygnał: wieża Watson, kanał deepnode://",
       "Tryb: echo split | możliwe przenikanie z LUNĄ"
-    ],
-    luna: [
-      "[SYSTEM] LUNA // Klasa: netrunner subsemantyczny",
-      "Moduł podstawowy: 'luna.core' | Typ: filtr runtime",
-      "Zasięg: pełne spektrum narracyjnych ech poznawczych",
-      "Powiązania: Donka (protokół), Rabur (niestabilna synchronizacja)",
-      "Status: zawsze aktywna (pasywny filtr echa)"
-    ]
-  };
+  ],
+  luna: [
+    "[SYSTEM] LUNA // Klasa: netrunner subsemantyczny",
+    "Moduł podstawowy: 'luna.core' | Typ: filtr runtime",
+    "Zasięg: pełne spektrum narracyjnych ech poznawczych",
+    "Powiązania: Donka (protokół), Rabur (niestabilna synchronizacja)",
+    "Status: zawsze aktywna (pasywny filtr echa)"
+  ],
+  "luna.core": [
+    "[LUNA CORE] Dostęp do rdzenia jest zablokowany.",
+    "Aby odblokować pełny interfejs użyj zasobów z katalogu v1_luna_legacy/"
+  ]
+};
 
   const result = profiles[name];
   if (!result) {
