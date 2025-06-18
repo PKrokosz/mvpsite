@@ -27,6 +27,19 @@
       "> TYPE `inject profile:donka` OR `help`"
     ];
 
+    const ambientMessages = [
+      "// [JAPANTOWN] Neurorave właśnie się zakończył. 3 ofiary ciszy poznawczej.",
+      "// [PACIFICA] Wykryto podszycie pod sygnał korporacyjny. Brak reakcji Militechu.",
+      "// [HEYWOOD] Luna obserwuje echo po rozmowie Rabura z Fixerem.",
+      "// [WATSON] Netrunnerka włamuje się do bazy danych Biotechnica.",
+      "// [SANTO DOMINGO] Przerwa w dostawie sensów. Zalecana rekonfiguracja siatkówki.",
+      "// [CITY CENTER] Mila zatweetowała plik kodu zawierający swoje sny.",
+      "// [WESTBROOK] Donka zidentyfikowała znaki milczenia w podziemnej sieci.",
+      "// [GLITCH CORE] Echo Krokieta rezonuje z nieznanym rytmem metamiasta.",
+      "// [HABSTACKS] Rabur zniknął z radarów. Możliwy split-memory protocol.",
+      "// [DEEPNODE] Aktywacja wewnętrznej ścieżki: `inject protocol:deepnode`"
+    ];
+
     let i = 0;
     function animateIntro() {
       if (i < intro.length) {
@@ -38,6 +51,7 @@
         setTimeout(animateIntro, 100);
       } else {
         createInput();
+        startIdleAmbient();
       }
     }
 
@@ -62,11 +76,25 @@
           routeCommand(command);
           input.disabled = true;
           input.removeEventListener("keydown", onKeyDown);
+          clearTimeout(idleTimeout);
           setTimeout(() => {
             createInput();
           }, 300);
         }
       });
+    }
+
+    let idleTimeout;
+    function startIdleAmbient() {
+      idleTimeout = setTimeout(() => {
+        const msg = ambientMessages[Math.floor(Math.random() * ambientMessages.length)];
+        const line = document.createElement("div");
+        line.textContent = msg;
+        line.classList.add("terminal-line", "ambient-message");
+        terminal.appendChild(line);
+        terminal.scrollTop = terminal.scrollHeight;
+        startIdleAmbient();
+      }, 8000); // 8 sekund bezczynności
     }
 
     animateIntro();
