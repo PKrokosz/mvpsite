@@ -33,6 +33,17 @@ Ukryte polecenie terminala: `inject profile:luna.core` ujawnia wskazówki dotycz
 
 ---
 
+## 📡 Donka Router i zaszyfrowany feed
+
+`donka_router.js` to uproszczony moduł routingu używany w `donka_feed_shell.html`.
+Rozpoznaje komunikaty rozpoczynające się od prefiksów takich jak `[INFO]`,
+`[EVENT]`, `[REKLAMA]`, `[ZAPIS]`, `[DATA]` czy `[ENCRYPT]` i przekierowuje je
+do odpowiednich sekcji feedu.  Wiadomości typu `[ENCRYPT]` otrzymują klasę
+`fade-encrypt`, dzięki czemu tekst stopniowo zanika – efekt zdefiniowany w
+`donka_feed_shell.css`.  Pozwala to wizualnie odróżnić zaszyfrowane przekazy.
+
+---
+
 ## ⚙️ Jak działa system?
 
 1. **Wpisujesz trigger (np. "deklaracja", "kyiosuke", "event:watson_disappearance")**
