@@ -157,40 +157,45 @@
 
     const defaultLunaPrompt = "Luna AI: 'Cześć, Operatorze. Kanał mentalny nawiązany. Czekam na sygnał.'";
 
+    function appendLog(text) {
+      log.appendChild(document.createTextNode(`\n${text}`));
+      log.scrollTop = log.scrollHeight;
+    }
+
     input.addEventListener('keydown', function(event) {
       if (event.key === 'Enter') {
         const cmd = input.value.trim();
-        log.innerHTML += `\n> ${cmd}`;
+        appendLog(`> ${cmd}`);
 
         if (cmd.startsWith('run ')) {
           const alias = cmd.split(' ')[1];
           const page = commandMap[alias];
           if (page) {
-            log.innerHTML += `\nPrzekierowanie do ${page}...`;
+            appendLog(`Przekierowanie do ${page}...`);
             setTimeout(() => {
               window.location.href = page;
             }, 1000);
           } else {
-            log.innerHTML += `\nNieznana komenda: ${cmd}`;
+            appendLog(`Nieznana komenda: ${cmd}`);
           }
         } else if (cmd === 'trace neurofield') {
           setTimeout(() => {
             window.location.href = 'neurofield_page.html';
           }, 1000);
         } else if (cmd === 'clear') {
-          log.innerHTML = '';
+          log.textContent = '';
         } else if (cmd.startsWith('probe luna')) {
           const message = cmd.slice('probe luna'.length).trim();
           if (message) {
             const response = getLunaResponse(message);
-            log.innerHTML += `\n${response}`;
+            appendLog(response);
           } else {
-            log.innerHTML += `\n${defaultLunaPrompt}`;
+            appendLog(defaultLunaPrompt);
           }
         } else if (commands[cmd]) {
-          log.innerHTML += `\n${commands[cmd]}`;
+          appendLog(commands[cmd]);
         } else {
-          log.innerHTML += `\nNieznana komenda: ${cmd}`;
+          appendLog(`Nieznana komenda: ${cmd}`);
         }
 
         input.value = '';
