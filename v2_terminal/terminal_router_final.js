@@ -6,6 +6,8 @@ function routeMessageToFeed(type, content, cls) {
     event: "feed-event",
     glitch: "feed-glitch",
     reklama: "feed-reklama",
+    data: "feed-data",
+    encrypt: "feed-encrypt",
   };
   const container = document.querySelector(`#${map[type]} .feed-body`);
   if (!container) return;
@@ -19,6 +21,18 @@ function routeMessageToFeed(type, content, cls) {
 }
 
 window.routeMessageToFeed = routeMessageToFeed;
+
+function routeMessageByPrefix(text, cls){
+  const match = text.match(/^\[(glitch|info|event|reklama|zapis|data|encrypt)\]/i);
+  if(match){
+    const type = match[1].toLowerCase();
+    routeMessageToFeed(type, text, cls);
+    return true;
+  }
+  return false;
+}
+
+window.routeMessageByPrefix = routeMessageByPrefix;
 
 function pushFeedMessage(message, cls) {
   routeMessageToFeed("event", message, cls);
