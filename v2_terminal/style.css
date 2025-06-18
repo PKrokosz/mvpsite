@@ -55,6 +55,16 @@ body {
   z-index: 1;
 }
 
+#glitch-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 3;
+}
+
 .terminal-line {
   white-space: pre-wrap;
   animation: flicker 1s ease-in-out;
@@ -153,6 +163,18 @@ body {
 }
 
 @media screen and (max-width: 768px) {
+  #main-container {
+    flex-direction: column;
+  }
+
+  #feed-zone {
+    height: 30vh;
+    border-left: none;
+    border-top: 2px solid #111;
+  }
+}
+
+@media screen and (max-width: 600px) {
   #main-container {
     flex-direction: column;
   }
