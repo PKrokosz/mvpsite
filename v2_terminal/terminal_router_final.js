@@ -1,4 +1,13 @@
 
+const sideFeed = document.getElementById("sidefeed");
+function pushFeedMessage(message) {
+  if (!sideFeed) return;
+  const msg = document.createElement("div");
+  msg.textContent = message;
+  sideFeed.appendChild(msg);
+  sideFeed.scrollTop = sideFeed.scrollHeight;
+}
+
 function routeCommand(command) {
   const terminal = document.getElementById("terminal");
   const line = document.createElement("div");
@@ -28,6 +37,7 @@ function routeCommand(command) {
     case command === "inject ads_core":
       if (window.adsCore && typeof window.adsCore.injectAd === "function") {
         window.adsCore.injectAd();
+        pushFeedMessage("[ADS] manual injection");
       }
       break;
 

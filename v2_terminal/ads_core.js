@@ -2,6 +2,17 @@
   const ADS_PATH = 'v2_terminal/ads_news_matrix.json';
   let adsEntries = [];
   let started = false;
+  const sideFeed = document.getElementById('sidefeed');
+
+  function pushFeedMessage(message, cls){
+    if(!sideFeed) return;
+    const msg = document.createElement('div');
+    msg.classList.add('terminal-line');
+    if(cls) msg.classList.add(cls);
+    msg.textContent = message;
+    sideFeed.appendChild(msg);
+    sideFeed.scrollTop = sideFeed.scrollHeight;
+  }
 
   function fetchAds(){
     return fetch(ADS_PATH)
@@ -23,30 +34,33 @@
 
   function displayEntry(entry){
     if(!entry) return;
-    const terminal = document.getElementById('terminal');
-    if(!terminal) return;
-    let el;
+    let text;
+    let cls;
     switch(entry.type){
       case 'ascii_banner':
-        el = createLine(entry.style + (entry.content ? '\n'+entry.content : ''), 'ad-banner');
+        text = entry.style + (entry.content ? '\n'+entry.content : '');
+        cls = 'ad-banner';
         break;
       case 'headline_alert':
-        el = createLine(`${entry.style} ${entry.content}`, 'headline-alert');
+        text = `${entry.style} ${entry.content}`;
+        cls = 'headline-alert';
         break;
       case 'glitch_scroll':
-        el = createLine(`${entry.style} ${entry.content}`, 'glitch-scroll');
+        text = `${entry.style} ${entry.content}`;
+        cls = 'glitch-scroll';
         break;
       case 'corporate_quote':
-        el = createLine(`${entry.style} ${entry.content}`, 'corporate-quote');
+        text = `${entry.style} ${entry.content}`;
+        cls = 'corporate-quote';
         break;
       case 'error_popup':
-        el = createLine(`${entry.style} ${entry.content}`, 'error-popup');
+        text = `${entry.style} ${entry.content}`;
+        cls = 'error-popup';
         break;
       default:
-        el = createLine(entry.content || '');
+        text = entry.content || '';
     }
-    terminal.appendChild(el);
-    terminal.scrollTop = terminal.scrollHeight;
+    pushFeedMessage(text, cls);
   }
 
   function injectAd(){
