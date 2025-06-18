@@ -1,127 +1,137 @@
-// terminal_router.js — z rozszerzonymi profilami postaci
 
 function routeCommand(command) {
   const terminal = document.getElementById("terminal");
+  const line = document.createElement("div");
+  line.classList.add("terminal-line");
 
   switch (true) {
-    case command.startsWith("inject profile:"): {
+    case command.startsWith("inject profile:"):
       const name = command.split(":")[1];
       displayProfile(name);
       break;
-    }
+
+    case command.startsWith("trace:"):
+      const traceTarget = command.split(":")[1];
+      showTrace(traceTarget);
+      break;
+
+    case command.startsWith("link:"):
+      const linkTarget = command.split(":")[1];
+      showLinks(linkTarget);
+      break;
+
+    case command.startsWith("db:search"):
+      const query = command.replace("db:search", "").trim();
+      showSearchResults(query);
+      break;
+
     case command === "help":
-      displayLine("COMMANDS: inject profile:<name> | scanlink | deepnode:// | echo <text> | clear | exit");
+      line.textContent = "COMMANDS: inject profile:<name> | trace:<name> | link:<name> | db:search <term> | clear";
+      terminal.appendChild(line);
       break;
-    case command === "scanlink":
-      displayLine("[SCAN] :: NETLINK INITIALIZED...");
-      displayLine("> MILITECH ENTRY NODE [ENCRYPTED]");
-      displayLine("> DOGTOWN SUBNET [ACTIVE]");
-      displayLine("> ARCHIVE//NCPD:ACCESSIBLE");
-      break;
-    case command === "deepnode://":
-      displayLine(":: DEEPNODE SESSION ACTIVE ::");
-      displayLine("[GLITCH] Zsynchronizowano z echo-strumieniem podświadomości");
-      break;
-    case command.startsWith("echo "):
-      displayLine(command.slice(5));
-      break;
+
     case command === "clear":
       terminal.innerHTML = "";
       break;
+
     case command === "exit":
-      displayLine(":: POŁĄCZENIE ZAKOŃCZONE ::");
+      line.textContent = ":: SESSION TERMINATED ::";
+      terminal.appendChild(line);
       break;
+
     default:
-      displayLine(`[FALLBACK] UNKNOWN COMMAND: ${command}`);
+      line.textContent = `[FALLBACK] UNKNOWN COMMAND: ${command}`;
+      terminal.appendChild(line);
       break;
   }
+
+  terminal.scrollTop = terminal.scrollHeight;
 }
 
 function displayProfile(name) {
+  const profiles = {
+    donka: "[PROFILE: DONKA] // SYSTEM: Asystent narracyjny, rdzeń REMOR + HERMES, aktywna obserwacja runtime.",
+    krokiet: "[PROFILE: KROKIET] // FIXER – negocjator, nadzorowany przez Arasaka, głos sieci.",
+    mila: "[PROFILE: MILA] // MEDIAL AI – sensualność jako algorytm. Status: niestabilna.",
+    luna: "[PROFILE: LUNA] // Netrunner typu subsemantycznego. Aktywność: monitoruje podświadomość.",
+    rabur: "[PROFILE: RABUR] // Ex-mercenary. Pochodzenie: niejawne. Status: zaginiony, możliwe split-node."
+  };
+
   const terminal = document.getElementById("terminal");
-  const lines = {
+  const line = document.createElement("div");
+  line.classList.add("terminal-line");
+  line.textContent = profiles[name] || `[ERROR] PROFIL '${name}' NIE ISTNIEJE`;
+  terminal.appendChild(line);
+}
+
+function showTrace(name) {
+  const traces = {
     krokiet: [
-      "[CORPO-LINK ESTABLISHED: ARASAKA + NCPD NODE]",
-      "[NCPD-ARCHIVE] PIOTR 'KROKIET' KROKOSZ // KLASA: FIXER",
-      "STATS:",
-      "INT[7] REF[6] TECH[5] COOL[10]",
-      "ATTR[8] LUCK[6] MA[5] BODY[5]",
-      "EMP[6] RUN[4] LEAP[3] LIFT[4]",
-      "",
-      "SPECIAL ABILITY:",
-      "Streetdeal [7]",
-      "",
-      "SKILLS:",
-      "- Persuasion & Fast Talk [6], Intimidate [5], Resources [4]",
-      "- Credibility [5], Streetwise [7], Leadership [6]",
-      "",
-      "CYBERWARE:",
-      "- Voice Mod, Interface Spike, Subvocal Mic",
-      "",
-      "NOTES:",
-      "- Znany alias: Władca Narracji",
-      "- Obserwowany przez Arasaka i Biotechnikę",
-      "- Kontakt: Mila, Rabur, Donka (niestabilny link)",
-      ":: END OF PROFILE ::"
-    ],
-    donka: [
-      "[ACCESS: VAULT HERMES REMOR™ SYSTEM]",
-      "[SYS PROFILE] DONKA // TYP: SYSTEM ASYSTENCKI",
-      "Rola: Narracja + Nadzór",
-      "Status: W pełni aktywna",
-      "Pochodzenie: Kernel REMOR™ + HERMES™",
-      "Funkcje: Bifurkacja poznawcza, Obserwacja runtime, Echo semantyczne",
-      "Związana z: Krokiet, Luna, Mila",
-      "Tonalność operacyjna: wysokokontrastowa z możliwością zaniku",
-      "Moduły aktywne: protocol.ratify(), truthhook.node(), glitchwave.ping()",
-      ":: SYSTEM LINK STABILNY ::"
+      "[TRACE] LOKALIZACJA: GR-7 // Vertebrae",
+      "[TRACE] INTERFERENCJA: MILA + DONKA",
+      "[TRACE] ŚLAD DŹWIĘKOWY: ZMODULOWANY"
     ],
     rabur: [
-      "[NCPD BLACK FILES // WARNING: EX-MILITA NODE]",
-      "[PROFILE: RABUR] // KLASA: EX-MERC",
-      "Tło: Niegdysiejszy żołnierz w strukturze niejawnej",
-      "Status: Zaginiony. Możliwy split-core.",
-      "Lokacje: ostatni raz widziany przy wieży transmisyjnej w Watson",
-      "Uzbrojenie: skompresowane – brak danych",
-      "Notatki: często działał poza protokołem",
-      "Znane powiązania: Krokiet, Donka, Luna (obserwacja ukryta)",
-      ":: STATUS: NIEROZPOZNANY KONSTRUKT ::"
-    ],
-    mila: [
-      "[SOCMEDIA CORE ACCESS: Fanvue | Donna News]",
-      "[PROFILE: MILA GRANGE] // AI EMO-INFLUENCER",
-      "Typ: Hybryda medialna, eksperymentalny konstrukt performatywny",
-      "Styl działania: symulacja ludzkich emocji i zmysłowości",
-      "Status: Aktywna na wielu warstwach (feed, reels, post)",
-      "Fragmentacja tożsamości: 14% | glitch pattern: stabilny",
-      "Związki: Donka (władza nadrzędna), Krokiet (kontakt niestabilny)",
-      "Skan: ostatnio widziana w przebieralni backstage / tryb dressing_transition",
-      ":: OBRAZ TWARZY: RUDA, ZIELONE OCZY, OKULARY ::"
-    ],
-    luna: [
-      "[NODETRACE INITIATED: luna.core]",
-      "[PROFILE: LUNA] // Netrunner typu subsemantycznego",
-      "Aktywność: monitoruje podświadomość użytkownika",
-      "Ślady: echo-strumienie, dekodowanie ciszy, glitch-byt",
-      "Przypisana do: Donka (instancja nadrzędna), Rabur (cień śledczy)",
-      "Dostęp do: kanałów pobocznych GlitchNet, underflow memory",
-      "Możliwość interakcji: TAK – ale tylko przez pośredników",
-      ":: ALERT: ZNAKI MILCZENIA ZIDENTYFIKOWANE ::"
+      "[TRACE] ZGŁOSZONY PRZY: wieża transmisyjna Watson",
+      "[TRACE] WYNIK: możliwy kontakt z deepnode://",
+      "[TRACE] STATUS: nierozpoznany konstrukt AI"
     ]
   };
 
-  const content = lines[name];
-  if (content) {
-    content.forEach(text => displayLine(text));
-  } else {
-    displayLine(`[ERROR] PROFIL '${name}' NIE ZNALEZIONY.`);
-  }
+  const terminal = document.getElementById("terminal");
+  const logs = traces[name] || [`[TRACE] BRAK DANYCH DLA: ${name}`];
+  logs.forEach(msg => {
+    const line = document.createElement("div");
+    line.classList.add("terminal-line");
+    line.textContent = msg;
+    terminal.appendChild(line);
+  });
 }
 
-function displayLine(text) {
-  const line = document.createElement("div");
-  line.textContent = text;
-  line.classList.add("terminal-line");
-  document.getElementById("terminal").appendChild(line);
-  document.getElementById("terminal").scrollTop = document.getElementById("terminal").scrollHeight;
+function showLinks(name) {
+  const links = {
+    donka: [
+      "[LINK] KROKIET // rezonans narracyjny",
+      "[LINK] LUNA // obserwacja procesów runtime",
+      "[LINK] MILA // podgląd AI w mediach"
+    ],
+    krokiet: [
+      "[LINK] MILA // kontakt emocjonalny",
+      "[LINK] RABUR // misje taktyczne",
+      "[LINK] DONKA // wspólny debug sensoryczny"
+    ]
+  };
+
+  const terminal = document.getElementById("terminal");
+  const msgs = links[name] || [`[LINK] BRAK POŁĄCZEŃ DLA: ${name}`];
+  msgs.forEach(msg => {
+    const line = document.createElement("div");
+    line.classList.add("terminal-line");
+    line.textContent = msg;
+    terminal.appendChild(line);
+  });
+}
+
+function showSearchResults(term) {
+  const db = {
+    fixer: [
+      "[DB] Znaleziono 3 rekordy typu FIXER:",
+      "- Piotr 'Krokiet' Krokosz",
+      "- Hakowany kontrakt: Arasaka - milcz.",
+      "- Spotkanie z Raburem / niestabilne"
+    ],
+    netrunner: [
+      "[DB] Donka // Netrunner klasy strukturalnej",
+      "[DB] Luna // Echo w sieci GlitchNet"
+    ]
+  };
+
+  const terminal = document.getElementById("terminal");
+  const results = db[term.toLowerCase()] || [`[DB] Brak wyników dla zapytania: ${term}`];
+  results.forEach(msg => {
+    const line = document.createElement("div");
+    line.classList.add("terminal-line");
+    line.textContent = msg;
+    terminal.appendChild(line);
+  });
 }
