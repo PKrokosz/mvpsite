@@ -27,18 +27,40 @@
       "> TYPE `inject profile:donka` OR `help`"
     ];
 
-    const ambientMessages = [
-      "// [JAPANTOWN] Neurorave właśnie się zakończył. 3 ofiary ciszy poznawczej.",
-      "// [PACIFICA] Wykryto podszycie pod sygnał korporacyjny. Brak reakcji Militechu.",
-      "// [HEYWOOD] Luna obserwuje echo po rozmowie Rabura z Fixerem.",
-      "// [WATSON] Netrunnerka włamuje się do bazy danych Biotechnica.",
-      "// [SANTO DOMINGO] Przerwa w dostawie sensów. Zalecana rekonfiguracja siatkówki.",
-      "// [CITY CENTER] Mila zatweetowała plik kodu zawierający swoje sny.",
-      "// [WESTBROOK] Donka zidentyfikowała znaki milczenia w podziemnej sieci.",
-      "// [GLITCH CORE] Echo Krokieta rezonuje z nieznanym rytmem metamiasta.",
-      "// [HABSTACKS] Rabur zniknął z radarów. Możliwy split-memory protocol.",
-      "// [DEEPNODE] Aktywacja wewnętrznej ścieżki: `inject protocol:deepnode`"
+    const messageTemplates = [
+      "// [REKLAMA] {product} – {slogan}",
+      "// [EVENT] Dziś w {district}: {event}, tylko z {sponsor}!",
+      "// [INFO] {ai} zarejestrowała {anomaly} w {district}.",
+      "// [SYS] {username} {action} przy {location}.",
+      "// [ZAPIS] Transmisja z {place} została {result}.",
+      "// [AD] Kup {item} – teraz z {feature} i {bonus}!"
     ];
+
+    const variables = {
+      product: ["CyberPineapple™", "NeuroLust™", "ChromeSmile®", "Synaptic Tea"],
+      slogan: ["smak przyszłości!", "odblokuj zmysły!", "teraz z opcją uczuć!", "dostrojony do emocji!"],
+      district: ["JAPANTOWN", "DOGTOWN", "WATSON", "SANTO DOMINGO", "WESTBROOK", "CITY CENTER"],
+      event: ["turniej nadludzkich szachów", "rozgrywki mechów", "rzeźbienie pamięci w chmurze"],
+      sponsor: ["Biotechnica", "Netwatch", "Orbit-8"],
+      ai: ["LUNA", "KROKOSZ_CORE", "SYNAPTRIX"],
+      anomaly: ["duplikację osobowości", "przekroczenie limitu snu", "rozszczepienie pamięci"],
+      username: ["Rabur", "Mila", "Donka", "Nieznany Fixer"],
+      action: ["zniknął z siatki", "otworzył ukryty kanał", "został powielony"],
+      location: ["wieża transmisyjna w Watson", "podziemia Glitchcore", "archiwum Snów"],
+      place: ["Vertebrae", "Node 404", "sieć typu B"],
+      result: ["przejęta przez niezidentyfikowany byt", "wyciszona", "skompresowana do 12 bajtów"],
+      item: ["proteza twarzy", "wspomnienie matki", "neurofon turbo"],
+      feature: ["kontrolą emocji", "automatycznym stylem"],
+      bonus: ["punktem empatii za każde użycie", "legalizacją w Night City"]
+    };
+
+    function generateAmbientMessage() {
+      const template = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
+      return template.replace(/\{(.*?)\}/g, (_, key) => {
+        const list = variables[key];
+        return list ? list[Math.floor(Math.random() * list.length)] : key;
+      });
+    }
 
     let i = 0;
     function animateIntro() {
@@ -70,16 +92,25 @@
       terminal.appendChild(wrapper);
       input.focus();
 
-      input.addEventListener("keydown", function onKeyDown(e) {
-        if (e.key === "Enter") {
-          const command = input.value.trim().toLowerCase();
-          routeCommand(command);
-          input.disabled = true;
-          input.removeEventListener("keydown", onKeyDown);
-          clearTimeout(idleTimeout);
-          setTimeout(() => {
-            createInput();
-          }, 300);
+      input.addEventListener("keydown", (e) => {
+        switch (e.key) {
+          case "Enter": {
+            const command = input.value.trim().toLowerCase();
+            const echo = document.createElement("div");
+            echo.textContent = "> " + command;
+            echo.classList.add("terminal-line");
+            terminal.insertBefore(echo, wrapper);
+            input.disabled = true;
+            routeCommand(command);
+            clearTimeout(idleTimeout);
+            setTimeout(() => {
+              createInput();
+              terminal.scrollTop = terminal.scrollHeight;
+            }, 300);
+            break;
+          }
+          default:
+            break;
         }
       });
     }
@@ -87,14 +118,14 @@
     let idleTimeout;
     function startIdleAmbient() {
       idleTimeout = setTimeout(() => {
-        const msg = ambientMessages[Math.floor(Math.random() * ambientMessages.length)];
+        const msg = generateAmbientMessage();
         const line = document.createElement("div");
         line.textContent = msg;
         line.classList.add("terminal-line", "ambient-message");
         terminal.appendChild(line);
         terminal.scrollTop = terminal.scrollHeight;
         startIdleAmbient();
-      }, 8000); // 8 sekund bezczynności
+      }, 8000);
     }
 
     animateIntro();
