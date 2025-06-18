@@ -2,17 +2,7 @@
   const ADS_PATH = 'v2_terminal/ads_news_matrix.json';
   let adsEntries = [];
   let started = false;
-  const sideFeed = document.getElementById('sidefeed');
 
-  function pushFeedMessage(message, cls){
-    if(!sideFeed) return;
-    const msg = document.createElement('div');
-    msg.classList.add('terminal-line');
-    if(cls) msg.classList.add(cls);
-    msg.textContent = message;
-    sideFeed.appendChild(msg);
-    sideFeed.scrollTop = sideFeed.scrollHeight;
-  }
 
   function fetchAds(){
     return fetch(ADS_PATH)
@@ -60,7 +50,9 @@
       default:
         text = entry.content || '';
     }
-    pushFeedMessage(text, cls);
+    if (typeof routeToFeed === 'function') {
+      routeToFeed('ad', text, cls);
+    }
   }
 
   function injectAd(){

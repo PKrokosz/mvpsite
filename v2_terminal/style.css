@@ -146,6 +146,12 @@ body {
   font-size: 12px;
 }
 
+#glitch-body,
+#event-body,
+#ads-body {
+  margin-bottom: 6px;
+}
+
 @media screen and (max-width: 768px) {
   #main-container {
     flex-direction: column;
