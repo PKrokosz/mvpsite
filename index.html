@@ -8,6 +8,7 @@
 </head>
 <body>
   <div class="overlay"></div>
+  <div id="glitch-layer"></div>
   <div id="main-container">
     <div id="terminal-column">
       <div id="terminal" class="terminal"></div>
@@ -94,6 +95,19 @@ function addLine(text){
   terminal.appendChild(d);
   terminal.scrollTop=terminal.scrollHeight;
 }
+
+function glitchInject(text){
+  const layer=document.getElementById('glitch-layer');
+  if(!layer) return;
+  const span=document.createElement('span');
+  span.classList.add('glitch-text');
+  span.textContent=text;
+  span.style.left=Math.random()*100+'%';
+  span.style.top=Math.random()*100+'%';
+  layer.appendChild(span);
+  setTimeout(()=>span.remove(),2000);
+}
+window.glitchInject = glitchInject;
 
 function introAnim(i=0){
   if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);}
