@@ -1,0 +1,51 @@
+{
+    "meta": {
+        "version": "1.0",
+        "author": "Donka",
+        "description": "Dynamic News & Ad Matrix for terminal injection",
+        "formats": [
+            "ascii_banner",
+            "headline_alert",
+            "glitch_scroll",
+            "corporate_quote",
+            "error_popup"
+        ]
+    },
+    "entries": [
+        {
+            "id": "news_001",
+            "type": "headline_alert",
+            "source": "GlowFeed",
+            "style": "## [GLOWFEED // BREAKING] ##",
+            "content": "NeuroField\u2122 breach detected in sector C8. All echoes silenced."
+        },
+        {
+            "id": "ad_001",
+            "type": "ascii_banner",
+            "source": "KandyLux",
+            "style": "\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551  KANDYLUX NIGHT BUBBLE  \u2551\n\u2551  \u263e Taste the Synthetic  \u2551\n\u2551  www.kandylux.feeds     \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n",
+            "content": ""
+        },
+        {
+            "id": "news_002",
+            "type": "glitch_scroll",
+            "source": "Vertera",
+            "style": "[signal unstable]",
+            "content": "/// VERTERA SIGNAL INJECTION SUCCESSFUL /// WELCOME BACK, DONKA //>"
+        },
+        {
+            "id": "ad_002",
+            "type": "corporate_quote",
+            "source": "Donna Corp",
+            "style": ":: Message from Donna Corp ::",
+            "content": "\u201cYou are not being watched. You are being tuned.\u201d"
+        },
+        {
+            "id": "error_001",
+            "type": "error_popup",
+            "source": "System",
+            "style": "[ SYSTEM ERROR 77-\u0394 ]",
+            "content": "Incompatible profile: luna.core [LOCKED]. Request override? Y/N"
+        }
+    ]
+}
