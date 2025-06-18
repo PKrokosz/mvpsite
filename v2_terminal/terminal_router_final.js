@@ -1,11 +1,30 @@
 
 const sideFeed = document.getElementById("sidefeed");
-function pushFeedMessage(message) {
-  if (!sideFeed) return;
+
+function routeToFeed(type, content, cls) {
+  const map = {
+    glitch: document.getElementById("glitch-body"),
+    event: document.getElementById("event-body"),
+    ad: document.getElementById("ads-body"),
+  };
+  const target = map[type] || sideFeed;
+  if (!target) return;
+
   const msg = document.createElement("div");
-  msg.textContent = message;
-  sideFeed.appendChild(msg);
-  sideFeed.scrollTop = sideFeed.scrollHeight;
+  msg.classList.add("terminal-line");
+  if (cls) msg.classList.add(cls);
+  msg.textContent = content;
+  target.appendChild(msg);
+
+  if (sideFeed) {
+    sideFeed.scrollTop = sideFeed.scrollHeight;
+  }
+}
+
+window.routeToFeed = routeToFeed;
+
+function pushFeedMessage(message, cls) {
+  routeToFeed("event", message, cls);
 }
 
 function routeCommand(command) {
