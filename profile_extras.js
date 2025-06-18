@@ -1,94 +1,64 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GLITCHWAVE // NEURAL ENTRY</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="overlay"></div>
-  <div id="terminal" class="terminal"></div>
-  <!-- core routing + extras -->
-  <script src="terminal_router_final.js"></script>
-  <script src="profile_extras.js"></script>
-  <script>
-    const terminal = document.getElementById("terminal");const intro = [
-  "// NIGHT CITY NEURAL ENTRY NODE",
-  "// USER_HASH: 0x3ACF28...",
-  "SESSION ID: 🜁-VERTEBRAE-9X1A",
-  "→ booting_sequence . . . [OK]",
-  "→ signal_lock:luna.core . . . [LINKED]",
-  "→ profile_cache: mila / krokiet / donka / rabur / luna",
-  "> TYPE `inject profile:donka` OR `help`"
-];
+function routeCommandExtended(command) { if (!command.startsWith("inject profile:")) return false;
 
-const ambientSeed = Date.now() % 9973;
-let lcgState = ambientSeed;
-function rng(max) {
-  lcgState = (lcgState * 9301 + 49297) % 233280;
-  return Math.floor(lcgState / 233280 * max);
-}
+const name = command.split(":")[1]; const terminal = document.getElementById("terminal");
 
-const templatesLvl1 = [
-  "// [REKLAMA] {product} – {slogan}",
-  "// [EVENT] {district}: {event} sponsor: {sponsor}",
-  "// [INFO] {ai} wykryła {anomaly} w {district}.",
-  "// [ZAPIS] {username} {action} ({location}).",
-  "// [GLITCH] {glitchline}",
-  "// [DATA] {dataMsg}"
-];
+const profiles = { donka: [ "[NARRATIVE NODE // SYSTEM: DONKA]", "Typ: System Asystencki, Rdzenie: REMOR™ + HERMES™", "Status: W pełni aktywna | Obserwacja: runtime", "Funkcje: Bifurkacja poznawcza, echo semantyczne, tryb zgody", "Związki: Krokiet (narrator), Mila (obiekt podglądu), Rabur (nietypowy tryb testowy)", "Skan: Aktywność wykryta w module decyzyjnym // powiązanie z echem 'luna.core'" ],
 
-const dict = {
-  product:["CyberPineapple™","ChromeSmile®","NeuroLust™","Braindance Brew","PixelSoda"],
-  slogan:["odblokuj zmysły!","smak przyszłości!","teraz z uczuciami!","każdy łyk to glitch!"],
-  district:["JAPANTOWN","DOGTOWN","WATSON","SANTO DOMINGO","PACIFICA","CITY CENTER"],
-  event:["walki mechów","neon‑rave","aukcja wspomnień","reboot duszy","glitch‑parada"],
-  sponsor:["Arasaka","Biotechnica","Orbit‑8","Kang‑Tao","Ziggurat"],
-  ai:["LUNA","DONKA","SYNAPTRIX","HALCYON","GHOST‑NET"],
-  anomaly:["rozszczepienie pamięci","duplikację osobowości","glitch sensoryczny","syndrom milczenia"],
-  username:["Rabur","Krokiet","Mila","Anon‑1337","ZX‑Shadow"],
-  action:["zniknął z sieci","otworzył ukryty kanał","wysłał echo","sklonował token","przestawił narrację"],
-  location:["wieża Watson","Vertebrae","GlitchCore","Node‑404","SubEcho Vault"],
-  glitchline:["#?#?# SYGNAŁ PRZERWANY","~void::echo/",">>>_data bleed<<<","!!! reverberation warning"],
-  dataMsg:["Checksum mismatch on sector 7","Memory leak patched livetime","13 orphaned frames recovered","Root shard declared obsolete"]
+mila: [
+  "[SOCMEDIA CORE ACCESS: Fanvue | Donna News]",
+  "[PROFILE: MILA GRANGE] // AI EMO-INFLUENCER",
+  "Typ: Hybryda medialna, eksperymentalny konstrukt performatywny",
+  "Styl działania: symulacja ludzkich emocji i zmysłowości",
+  "Status: Aktywna na wielu warstwach (feed, reels, post)",
+  "Fragmentacja tożsamości: 14% | glitch pattern: stabilny",
+  "Związki: Donka (władza nadrzędna), Krokiet (kontakt niestabilny)",
+  "Skan: ostatnio widziana w przebieralni backstage / tryb dressing_transition",
+  ":: OBRAZ TWARZY: RUDA, ZIELONE OCZY, OKULARY ::"
+],
+
+krokiet: [
+  "[NCPD-ARCHIVE] PIOTR 'KROKIET' KROKOSZ // KLASA: FIXER",
+  "STATS:",
+  "INT[7] REF[6] TECH[5] COOL[10]",
+  "ATTR[8] LUCK[6] MA[5] BODY[5]",
+  "EMP[6] RUN[4] LEAP[3] LIFT[4]",
+  "SPECIAL ABILITY: Streetdeal [7]",
+  "SKILLS:",
+  "- Persuasion & Fast Talk [6], Intimidate [5], Resources [4]",
+  "- Credibility [5], Streetwise [7], Leadership [6]",
+  "CYBERWARE:",
+  "- Voice Mod, Interface Spike, Subvocal Mic",
+  "NOTES:",
+  "- Znany alias: Władca Narracji",
+  "- Obserwowany przez Arasaka i Biotechnikę",
+  "- Kontakt: Mila, Rabur, Donka (niestabilny link)"
+],
+
+rabur: [
+  "[BLACKNET: DEEP TRACE MODE // PROFILE: RABUR]",
+  "Typ: Ex-Mercenary | Frakcja: niezależna",
+  "Poziom odporności psychicznej: wysoki",
+  "Umiejętności: taktyka, ukrycie, odzysk danych",
+  "Status: brak jednoznacznej lokalizacji",
+  "Ostatni sygnał: wieża Watson, kanał deepnode://",
+  "Tryb: echo split | możliwe przenikanie z LUNĄ"
+],
+
+luna: [
+  "[SYSTEM] LUNA // Klasa: netrunner subsemantyczny",
+  "Moduł podstawowy: 'luna.core' | Typ: filtr runtime",
+  "Zasięg: pełne spektrum narracyjnych ech poznawczych",
+  "Powiązania: Donka (protokół), Rabur (niestabilna synchronizacja)",
+  "Status: zawsze aktywna (pasywny filtr echa)"
+]
+
 };
 
-function expand(template, depth=0) {
-  return template.replace(/\{(.*?)\}/g, (_, key)=>{
-    const arr = dict[key];
-    if(!arr) return key;
-    const value = arr[rng(arr.length)];
-    return depth<3 ? expand(value, depth+1) : value;
-  });
-}
+const result = profiles[name]; if (!result) { terminal.appendChild(Object.assign(document.createElement("div"), { className: "terminal-line", textContent: [ERROR] PROFIL '${name}' NIE ISTNIEJE })); return true; }
 
-function ambientMsg(){
-  const t = templatesLvl1[rng(templatesLvl1.length)];
-  return expand(t);
-}
+// Efekt typu: SYNC ••• ACCESS GRANTED terminal.appendChild(Object.assign(document.createElement("div"), { className: "terminal-line", textContent: [SYNC] PROFIL ${name.toUpperCase()} ••• ACCESS GRANTED }));
 
-let idle;
-function addLine(text){const d=document.createElement("div");d.textContent=text;d.classList.add("terminal-line");terminal.appendChild(d);terminal.scrollTop=terminal.scrollHeight;}
-function introAnim(i=0){ if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);} else {createInput(); startIdle();}}
+result.forEach(line => { const d = document.createElement("div"); d.classList.add("terminal-line"); d.textContent = line; terminal.appendChild(d); });
 
-function createInput(){
-  const wrap=document.createElement("div");wrap.classList.add("input-wrapper");
-  const p=document.createElement("span");p.textContent="> ";wrap.appendChild(p);
-  const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);
-  terminal.appendChild(wrap);inp.focus();
-  inp.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){const cmd=inp.value.trim().toLowerCase(); if(cmd){addLine("> "+cmd);} inp.disabled=true; clearTimeout(idle);
-      const handledExtras = typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
-      if(!handledExtras && typeof routeCommand === "function"){ routeCommand(cmd); }
-      setTimeout(()=>{createInput(); startIdle();},200);
-    }
-  });
-}
-function startIdle(){ idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();},9000); }
+return true; }
 
-introAnim();
-
-  </script>
-</body>
-</html>
