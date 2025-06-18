@@ -2,15 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GLITCHWAVE TERMINAL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLITCHWAVE // NEURAL ENTRY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="overlay"></div>
   <div id="terminal" class="terminal"></div>
   <script src="luna_profiles.js"></script>
   <script>
-    // Zmieniaj nazwę poniżej, by wyświetlić inny profil: "Donka", "Krokiet", "Mila", "Luna"
-    displayProfile("Donka");
+    const terminal = document.getElementById("terminal");
+
+    const intro = [
+      "// NIGHT CITY NEURAL ENTRY NODE",
+      "// USER_HASH: 0x3ACF28...",
+      "SESSION ID: 🜁-VERTEBRAE-9X1A",
+      "",
+      "→ booting_sequence . . . [OK]",
+      "→ signal_lock:luna.core . . . [LINKED]",
+      "→ profile_cache: mila / krokiet / donka / luna",
+      "",
+      "> TYPE `inject profile:donka` OR `help`"
+    ];
+
+    let i = 0;
+    function animateIntro() {
+      if (i < intro.length) {
+        const line = document.createElement("div");
+        line.textContent = intro[i];
+        line.classList.add("terminal-line");
+        terminal.appendChild(line);
+        i++;
+        setTimeout(animateIntro, 100);
+      } else {
+        createInput();
+      }
+    }
+
+    function createInput() {
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("input-wrapper");
+
+      const prompt = document.createElement("span");
+      prompt.textContent = "> ";
+      wrapper.appendChild(prompt);
+
+      const input = document.createElement("input");
+      input.classList.add("terminal-input");
+      wrapper.appendChild(input);
+
+      terminal.appendChild(wrapper);
+      input.focus();
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const command = input.value.trim().toLowerCase();
+          const response = document.createElement("div");
+          response.classList.add("terminal-line");
+
+          if (command.startsWith("inject profile:")) {
+            const target = command.split(":")[1];
+            terminal.innerHTML = "";
+            displayProfile(target);
+          } else if (command === "help") {
+            response.textContent = "AVAILABLE COMMANDS: inject profile:[donka|krokiet|mila|luna], help, clear";
+            terminal.appendChild(response);
+            createInput();
+          } else if (command === "clear") {
+            terminal.innerHTML = "";
+            animateIntro();
+          } else {
+            response.textContent = `ERROR[0x51] :: UNKNOWN INSTRUCTION: ${command}`;
+            terminal.appendChild(response);
+            createInput();
+          }
+        }
+      });
+    }
+
+    animateIntro();
   </script>
 </body>
 </html>
