@@ -12,6 +12,11 @@ function routeMessageToFeed(type, content, cls) {
   const container = document.querySelector(`#${map[type]} .feed-body`);
   if (!container) return;
 
+  if (type === "encrypt" && typeof appendEncrypted === "function") {
+    appendEncrypted(content);
+    return;
+  }
+
   const msg = document.createElement("div");
   msg.classList.add("terminal-line");
   if (cls) msg.classList.add(cls);

@@ -10,7 +10,22 @@
     glitch: 'glitch-layer'
   };
 
+  function appendEncrypted(content){
+    const container = document.querySelector('#feed-encrypt .feed-body') ||
+                      document.querySelector('#encrypt-feed .feed-body');
+    if(!container) return;
+    const div = document.createElement('div');
+    div.classList.add('terminal-line','fade-encrypt');
+    div.textContent = content;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
   function routeMessage(type, content, cls){
+    if(type === 'encrypt'){
+      appendEncrypted(content);
+      return;
+    }
     const id = map[type];
     const container = id && document.querySelector(`#${id} .feed-body`);
     if(!container) return;
@@ -18,7 +33,6 @@
     div.classList.add('terminal-line');
     if(cls) div.classList.add(cls);
     if(type==='reklama' || type==='ad') div.classList.add('flash-banner');
-    if(type==='encrypt') div.classList.add('fade-encrypt');
     div.textContent = content;
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
@@ -41,4 +55,5 @@
   window.routeMessageByPrefix = routeMessageByPrefix;
   window.routeMessageToFeed = routeMessage; // compatibility
   window.glitchInject = glitchInject;
+  window.appendEncrypted = appendEncrypted;
 })();
