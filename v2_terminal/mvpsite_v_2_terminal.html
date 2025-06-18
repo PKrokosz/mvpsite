@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NetTerm v2 – MVP Interface</title>
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     html, body {
       margin: 0;
@@ -28,18 +29,18 @@
       width: 100vw;
       overflow: hidden;
     }
-    .terminal {
+    #terminal-column {
       flex: 2;
-      width: auto;
-      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #050505;
       border: 2px solid #00ff99;
       padding: 10px;
-      background-color: #050505;
       box-shadow: 0 0 15px #00ff99;
       box-sizing: border-box;
       overflow-y: auto;
     }
-    #feeds-container {
+    #feed-zone {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -48,15 +49,21 @@
       border-left: 2px solid #111;
     }
 
-    .feed {
+    .feed-section {
       flex: 1;
-      padding: 10px;
+      padding: 4px;
+      margin: 2px 0;
       font-family: monospace;
       font-size: 12px;
+      overflow-y: auto;
+      background-color: #0a0a0a;
+      border: 1px solid #111;
     }
 
-    .feed-scroll {
-      overflow-y: auto;
+    .feed-section h4 {
+      margin: 0 0 2px 0;
+      font-size: 10px;
+      color: #888;
     }
     .prompt::before {
       content: '> ';
@@ -83,7 +90,7 @@
         flex-direction: column;
       }
 
-      #feeds-container {
+      #feed-zone {
         height: 30vh;
         border-left: none;
         border-top: 2px solid #111;
@@ -93,8 +100,8 @@
 </head>
 <body>
   <div id="main-container">
-    <div id="core-terminal" class="terminal">
-      <div id="log" class="log">
+    <div id="terminal-column">
+      <div id="terminal-output" class="log">
         :: SYSTEM ONLINE
         :: Witaj w NetTerm v2 Interface
         :: Wpisz 'help' aby zobaczyć dostępne komendy
@@ -104,17 +111,19 @@
         <input type="text" id="terminal-input" autofocus autocomplete="off">
       </div>
     </div>
-    <div id="feeds-container">
-      <div id="feed-glitch" class="feed feed-scroll"></div>
-      <div id="feed-ads" class="feed feed-scroll"></div>
-      <div id="feed-event" class="feed feed-scroll"></div>
+    <div id="feed-zone">
+      <div class="feed-section" id="feed-zapis"><h4>[ZAPIS]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="feed-info"><h4>[INFO]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="feed-event"><h4>[EVENT]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="feed-glitch"><h4>[GLITCH]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="feed-reklama"><h4>[REKLAMA]</h4><div class="feed-body"></div></div>
     </div>
   </div>
 
   <script type="module">
     import { getLunaResponse } from './luna.js';
     const input = document.getElementById('terminal-input');
-    const log = document.getElementById('log');
+    const log = document.getElementById('terminal-output');
 
     const commandMap = {
       remor: 'remor_page.html',
