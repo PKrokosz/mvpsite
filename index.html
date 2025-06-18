@@ -60,10 +60,13 @@
         if (e.key === "Enter") {
           const command = input.value.trim().toLowerCase();
           routeCommand(command);
-          wrapper.remove();
-          createInput();
+          input.disabled = true; // zablokuj bieżący input, ale go nie usuwaj
+          setTimeout(() => {
+            createInput();
+          }, 300);
         }
-      });
+    });
+
     }
 
     animateIntro();
