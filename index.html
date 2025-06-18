@@ -11,6 +11,7 @@
   <div class="overlay"></div>
   <div id="terminal" class="terminal"></div>
   <script src="luna_profiles.js"></script>
+  <script src="terminal_router.js"></script>
   <script>
     const terminal = document.getElementById("terminal");
 
@@ -58,25 +59,9 @@
       input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           const command = input.value.trim().toLowerCase();
-          const response = document.createElement("div");
-          response.classList.add("terminal-line");
-
-          if (command.startsWith("inject profile:")) {
-            const target = command.split(":")[1];
-            terminal.innerHTML = "";
-            displayProfile(target);
-          } else if (command === "help") {
-            response.textContent = "AVAILABLE COMMANDS: inject profile:[donka|krokiet|mila|luna], help, clear";
-            terminal.appendChild(response);
-            createInput();
-          } else if (command === "clear") {
-            terminal.innerHTML = "";
-            animateIntro();
-          } else {
-            response.textContent = `ERROR[0x51] :: UNKNOWN INSTRUCTION: ${command}`;
-            terminal.appendChild(response);
-            createInput();
-          }
+          routeCommand(command);
+          wrapper.remove();
+          createInput();
         }
       });
     }
