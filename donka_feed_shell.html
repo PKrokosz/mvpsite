@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donka Feed Shell</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="v2_terminal/style.css">
+  <link rel="stylesheet" href="donka_feed_shell.css">
+</head>
+<body>
+  <div class="overlay"></div>
+  <div id="main-container">
+    <div id="terminal-column">
+      <div id="terminal" class="terminal"></div>
+    </div>
+    <div id="feed-zone">
+      <div class="feed-section" id="glitch-layer"><h4>[GLITCH]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="info-hud"><h4>[INFO]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="event-feed"><h4>[EVENT]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="ad-banner"><h4>[REKLAMA]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="zapis-trace"><h4>[ZAPIS]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="data-dump"><h4>[DATA]</h4><div class="feed-body"></div></div>
+      <div class="feed-section" id="encrypt-feed"><h4>[ENCRYPT]</h4><div class="feed-body"></div></div>
+    </div>
+  </div>
+  <!-- core routing + extras -->
+  <script src="v2_terminal/terminal_router_final.js"></script>
+  <script src="donka_router.js"></script>
+  <script src="v2_terminal/profile_extras.js"></script>
+  <script>
+    const terminal = document.getElementById("terminal");
+    const intro = [
+      "// NIGHT CITY NEURAL ENTRY NODE",
+      "// USER_HASH: 0x3ACF28...",
+      "SESSION ID: 🜁-VERTEBRAE-9X1A",
+      "→ booting_sequence . . . [OK]",
+      "→ signal_lock:luna.core . . . [LINKED]",
+      "→ profile_cache: mila / krokiet / donka / rabur / luna",
+      "> TYPE `inject profile:donka` OR `help`"
+    ];const ambientSeed = Date.now() % 9973;
+let lcgState = ambientSeed;
+function rng(max) {
+  lcgState = (lcgState * 9301 + 49297) % 233280;
+  return Math.floor(lcgState / 233280 * max);
+}
+
+const templatesLvl1 = [
+  "// [REKLAMA] {product} – {slogan}",
+  "// [EVENT] {district}: {event} sponsor: {sponsor}",
+  "// [INFO] {ai} wykryła {anomaly} w {district}.",
+  "// [ZAPIS] {username} {action} ({location}).",
+  "// [GLITCH] {glitchline}",
+  "// [DATA] {dataMsg}",
+  "// [ENCRYPT] {hiddenKey} – {encoded}",
+  "// [SYS] {systemNotice}"
+];
+
+const dict = {
+  product:["CyberPineapple™","ChromeSmile®","NeuroLust™","Braindance Brew","PixelSoda"],
+  slogan:["odblokuj zmysły!","smak przyszłości!","teraz z uczuciami!","każdy łyk to glitch!"],
+  district:["JAPANTOWN","DOGTOWN","WATSON","SANTO DOMINGO","PACIFICA","CITY CENTER"],
+  event:["walki mechów","neon‑rave","aukcja wspomnień","reboot duszy","glitch‑parada"],
+  sponsor:["Arasaka","Biotechnica","Orbit‑8","Kang‑Tao","Ziggurat"],
+  ai:["LUNA","DONKA","SYNAPTRIX","HALCYON","GHOST‑NET"],
+  anomaly:["rozszczepienie pamięci","duplikację osobowości","glitch sensoryczny","syndrom milczenia"],
+  username:["Rabur","Krokiet","Mila","Anon‑1337","ZX‑Shadow"],
+  action:["zniknął z sieci","otworzył ukryty kanał","wysłał echo","sklonował token","przestawił narrację"],
+  location:["wieża Watson","Vertebrae","GlitchCore","Node‑404","SubEcho Vault"],
+  glitchline:["#?#?# SYGNAŁ PRZERWANY","~void::echo/",">>>_data bleed<<<","!!! reverberation warning"],
+  dataMsg:["Checksum mismatch on sector 7","Memory leak patched livetime","13 orphaned frames recovered","Root shard declared obsolete"],
+  hiddenKey:[".x-k3y.783","alpha12/6","deepCode://422","trace|ARKNOD"],
+  encoded:["7F3-A8x-NXx-7Z9","gl17ch_s3ed8","X0FF.LIMINAL","resync:midstream"],
+  systemNotice:["Bootstack delay detected","Unauthorized proxy routed","NCPD scan pinged","Low‑bandwidth fallback engaged"]
+};
+
+function expand(template, depth=0) {
+  return template.replace(/\{(.*?)\}/g, (_, key)=>{
+    const arr = dict[key];
+    if(!arr) return key;
+    const value = arr[rng(arr.length)];
+    return depth<3 ? expand(value, depth+1) : value;
+  });
+}
+
+function ambientMsg(){
+  const t = templatesLvl1[rng(templatesLvl1.length)];
+  return expand(t);
+}
+
+let idle;
+function addLine(text){
+  if (typeof routeMessageByPrefix === 'function' && routeMessageByPrefix(text)) return;
+  const d=document.createElement("div");
+  d.textContent=text;
+  d.classList.add("terminal-line");
+  terminal.appendChild(d);
+  terminal.scrollTop=terminal.scrollHeight;
+}
+
+function introAnim(i=0){
+  if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);}
+  else {createInput(); startIdle();}
+}
+
+function createInput(){
+  const wrap=document.createElement("div");wrap.classList.add("input-wrapper");
+  const p=document.createElement("span");p.textContent="> ";wrap.appendChild(p);
+  const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);
+  terminal.appendChild(wrap);inp.focus();
+  inp.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      const cmd=inp.value.trim().toLowerCase();
+      if(cmd){addLine("> "+cmd);}
+      inp.disabled=true; clearTimeout(idle);
+
+      if(typeof routeCommand === "function"){
+        routeCommand(cmd);
+      }
+      if(typeof routeCommandExtended === "function"){
+        routeCommandExtended(cmd);
+      }
+      setTimeout(()=>{createInput(); startIdle();}, 400);
+    }
+  });
+}
+
+function startIdle(){
+  idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();}, 9000);
+}
+
+introAnim();
+
+  </script>
+  <!-- Hint: use `inject profile:luna.core` after re-enabling the legacy interface in v1_luna_legacy/ -->
+  <script src="v2_terminal/ads_core.js"></script>
+</body>
+</html>
