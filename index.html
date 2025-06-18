@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,86 +13,98 @@
   <script src="terminal_router_final.js"></script>
   <script src="profile_extras.js"></script>
   <script>
-    /* ----------  INTRO & INPUT ---------- */
-    const terminal = document.getElementById("terminal");
+    const terminal = document.getElementById("terminal");const intro = [
+  "// NIGHT CITY NEURAL ENTRY NODE",
+  "// USER_HASH: 0x3ACF28...",
+  "SESSION ID: 🜁-VERTEBRAE-9X1A",
+  "→ booting_sequence . . . [OK]",
+  "→ signal_lock:luna.core . . . [LINKED]",
+  "→ profile_cache: mila / krokiet / donka / rabur / luna",
+  "> TYPE `inject profile:donka` OR `help`"
+];
 
-    const intro = [
-      "// NIGHT CITY NEURAL ENTRY NODE",
-      "// USER_HASH: 0x3ACF28...",
-      "SESSION ID: 🜁-VERTEBRAE-9X1A",
-      "→ booting_sequence . . . [OK]",
-      "→ signal_lock:luna.core . . . [LINKED]",
-      "→ profile_cache: mila / krokiet / donka / rabur / luna",
-      "> TYPE `inject profile:donka` OR `help`"
-    ];
+const ambientSeed = Date.now() % 9973;
+let lcgState = ambientSeed;
+function rng(max) {
+  lcgState = (lcgState * 9301 + 49297) % 233280;
+  return Math.floor(lcgState / 233280 * max);
+}
 
-    /* ----------  FRACTAL AMBIENT GENERATOR ---------- */
-    const ambientSeed = Date.now() % 9973;
-    let lcgState = ambientSeed;
-    function rng(max) {
-      lcgState = (lcgState * 9301 + 49297) % 233280;
-      return Math.floor(lcgState / 233280 * max);
+const templatesLvl1 = [
+  "// [REKLAMA] {product} – {slogan}",
+  "// [EVENT] {district}: {event} sponsor: {sponsor}",
+  "// [INFO] {ai} wykryła {anomaly} w {district}.",
+  "// [ZAPIS] {username} {action} ({location}).",
+  "// [GLITCH] {glitchline}",
+  "// [DATA] {dataMsg}"
+];
+
+const dict = {
+  product:["CyberPineapple™","ChromeSmile®","NeuroLust™","Braindance Brew","PixelSoda"],
+  slogan:["odblokuj zmysły!","smak przyszłości!","teraz z uczuciami!","każdy łyk to glitch!"],
+  district:["JAPANTOWN","DOGTOWN","WATSON","SANTO DOMINGO","PACIFICA","CITY CENTER"],
+  event:["walki mechów","neon‑rave","aukcja wspomnień","reboot duszy","glitch‑parada"],
+  sponsor:["Arasaka","Biotechnica","Orbit‑8","Kang‑Tao","Ziggurat"],
+  ai:["LUNA","DONKA","SYNAPTRIX","HALCYON","GHOST‑NET"],
+  anomaly:["rozszczepienie pamięci","duplikację osobowości","glitch sensoryczny","syndrom milczenia"],
+  username:["Rabur","Krokiet","Mila","Anon‑1337","ZX‑Shadow"],
+  action:["zniknął z sieci","otworzył ukryty kanał","wysłał echo","sklonował token","przestawił narrację"],
+  location:["wieża Watson","Vertebrae","GlitchCore","Node‑404","SubEcho Vault"],
+  glitchline:["#?#?# SYGNAŁ PRZERWANY","~void::echo/",">>>_data bleed<<<","!!! reverberation warning"],
+  dataMsg:["Checksum mismatch on sector 7","Memory leak patched livetime","13 orphaned frames recovered","Root shard declared obsolete"]
+};
+
+function expand(template, depth=0) {
+  return template.replace(/\{(.*?)\}/g, (_, key)=>{
+    const arr = dict[key];
+    if(!arr) return key;
+    const value = arr[rng(arr.length)];
+    return depth<3 ? expand(value, depth+1) : value;
+  });
+}
+
+function ambientMsg(){
+  const t = templatesLvl1[rng(templatesLvl1.length)];
+  return expand(t);
+}
+
+let idle;
+function addLine(text){
+  const d=document.createElement("div");
+  d.textContent=text;
+  d.classList.add("terminal-line");
+  terminal.appendChild(d);
+  terminal.scrollTop=terminal.scrollHeight;
+}
+
+function introAnim(i=0){
+  if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);} 
+  else {createInput(); startIdle();}
+}
+
+function createInput(){
+  const wrap=document.createElement("div");wrap.classList.add("input-wrapper");
+  const p=document.createElement("span");p.textContent="> ";wrap.appendChild(p);
+  const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);
+  terminal.appendChild(wrap);inp.focus();
+  inp.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      const cmd=inp.value.trim().toLowerCase();
+      if(cmd){addLine("> "+cmd);}
+      inp.disabled=true; clearTimeout(idle);
+      const handledExtras = typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
+      if(!handledExtras){
+        try { routeCommand(cmd); } catch(e) { addLine("[ERROR] BŁĄD ROUTERA: "+e.message); }
+      }
+      setTimeout(()=>{createInput(); startIdle();},200);
     }
+  });
+}
 
-    const templatesLvl1 = [
-      "// [REKLAMA] {product} – {slogan}",
-      "// [EVENT] {district}: {event} sponsor: {sponsor}",
-      "// [INFO] {ai} wykryła {anomaly} w {district}.",
-      "// [ZAPIS] {username} {action} ({location}).",
-      "// [GLITCH] {glitchline}",
-      "// [DATA] {dataMsg}"
-    ];
+function startIdle(){ idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();},9000); }
 
-    const dict = {
-      product:["CyberPineapple™","ChromeSmile®","NeuroLust™","Braindance Brew","PixelSoda","OptiCoreFX","NullCaffeine+"],
-      slogan:["odblokuj zmysły!","smak przyszłości!","teraz z uczuciami!","każdy łyk to glitch!","nasączony ładunkiem danych!","legalnie nielegalny!"],
-      district:["JAPANTOWN","DOGTOWN","WATSON","SANTO DOMINGO","PACIFICA","CITY CENTER","THE RING","NEON VERTEX"],
-      event:["walki mechów","neon‑rave","aukcja wspomnień","reboot duszy","glitch‑parada","trans‑mod jam","duel hackerów"],
-      sponsor:["Arasaka","Biotechnica","Orbit‑8","Kang‑Tao","Ziggurat","NightCorp","SavEdge"],
-      ai:["LUNA","DONKA","SYNAPTRIX","HALCYON","GHOST‑NET","ZOR"],
-      anomaly:["rozszczepienie pamięci","duplikację osobowości","glitch sensoryczny","syndrom milczenia","strumień błądzenia"],
-      username:["Rabur","Krokiet","Mila","Anon‑1337","ZX‑Shadow","N3twraith"],
-      action:["zniknął z sieci","otworzył ukryty kanał","wysłał echo","sklonował token","przestawił narrację","odtworzył ukryty log"],
-      location:["wieża Watson","Vertebrae","GlitchCore","Node‑404","SubEcho Vault","Red Loop Terminal"],
-      glitchline:["#?#?# SYGNAŁ PRZERWANY","~void::echo/",">>>_data bleed<<<","!!! reverberation warning","—|=datastream collapsed=|—"],
-      dataMsg:["Checksum mismatch on sector 7","Memory leak patched livetime","13 orphaned frames recovered","Root shard declared obsolete","Encrypted node revealed under pressure"]
-    };
+introAnim();
 
-    function expand(template, depth=0) {
-      return template.replace(/\{(.*?)\}/g, (_, key)=>{
-        const arr = dict[key];
-        if(!arr) return key;
-        const value = arr[rng(arr.length)];
-        return depth<3 ? expand(value, depth+1) : value;
-      });
-    }
-
-    function ambientMsg(){
-      const t = templatesLvl1[rng(templatesLvl1.length)];
-      return expand(t);
-    }
-
-    /* ----------  INTRO + INPUT & AMBIENT ----------- */
-    let idle;
-    function addLine(text){const d=document.createElement("div");d.textContent=text;d.classList.add("terminal-line");terminal.appendChild(d);terminal.scrollTop=terminal.scrollHeight;}
-    function introAnim(i=0){ if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);} else {createInput(); startIdle();}}
-
-    function createInput(){
-      const wrap=document.createElement("div");wrap.classList.add("input-wrapper");
-      const p=document.createElement("span");p.textContent="> ";wrap.appendChild(p);
-      const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);
-      terminal.appendChild(wrap);inp.focus();
-      inp.addEventListener("keydown",e=>{
-        if(e.key==="Enter"){const cmd=inp.value.trim().toLowerCase(); if(cmd){addLine("> "+cmd);} inp.disabled=true; clearTimeout(idle);
-          const handledExtras = typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
-          if(!handledExtras){ routeCommand(cmd); }
-          setTimeout(()=>{createInput(); startIdle();},200);
-        }
-      });
-    }
-    function startIdle(){ idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();},9000); }
-
-    introAnim();
   </script>
 </body>
 </html>
