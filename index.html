@@ -4,14 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GLITCHWAVE // NEURAL ENTRY</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="v2_terminal/style.css">
 </head>
 <body>
   <div class="overlay"></div>
   <div id="terminal" class="terminal"></div>
   <!-- core routing + extras -->
-  <script src="terminal_router_final.js"></script>
-  <script src="profile_extras.js"></script>
+  <script src="v2_terminal/terminal_router_final.js"></script>
+  <script src="v2_terminal/profile_extras.js"></script>
   <script>
     const terminal = document.getElementById("terminal");
     const intro = [
@@ -113,5 +113,6 @@ function startIdle(){
 introAnim();
 
   </script>
+  <!-- Hint: use `inject profile:luna.core` after re-enabling the legacy interface in v1_luna_legacy/ -->
 </body>
 </html>
