@@ -73,3 +73,33 @@ body {
   50% { opacity: 1; }
   100% { opacity: 0.95; }
 }
+
+.ad-banner {
+  color: #ffa500;
+}
+
+.headline-alert {
+  color: #ff0077;
+  font-weight: bold;
+}
+
+.glitch-scroll {
+  color: #00aaff;
+  animation: scroll-glitch 4s linear infinite;
+}
+
+.corporate-quote {
+  font-style: italic;
+  color: #88f;
+}
+
+.error-popup {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff0000;
+  padding: 2px 4px;
+}
+
+@keyframes scroll-glitch {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-1ch); }
+}
