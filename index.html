@@ -22,7 +22,7 @@
       "",
       "→ booting_sequence . . . [OK]",
       "→ signal_lock:luna.core . . . [LINKED]",
-      "→ profile_cache: mila / krokiet / donka / luna",
+      "→ profile_cache: mila / krokiet / donka / luna / rabur",
       "",
       "> TYPE `inject profile:donka` OR `help`"
     ];
@@ -56,17 +56,17 @@
       terminal.appendChild(wrapper);
       input.focus();
 
-      input.addEventListener("keydown", (e) => {
+      input.addEventListener("keydown", function onKeyDown(e) {
         if (e.key === "Enter") {
           const command = input.value.trim().toLowerCase();
           routeCommand(command);
-          input.disabled = true; // zablokuj bieżący input, ale go nie usuwaj
+          input.disabled = true;
+          input.removeEventListener("keydown", onKeyDown);
           setTimeout(() => {
             createInput();
           }, 300);
         }
-    });
-
+      });
     }
 
     animateIntro();
