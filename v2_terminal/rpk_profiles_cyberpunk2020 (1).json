@@ -1,0 +1,312 @@
+[
+    {
+        "id": "krokiet",
+        "name": "Krokiet",
+        "role": "Media / Operator",
+        "faction": "Vertebrae External Node",
+        "notes": "Narrative systems architect, reality interference unit",
+        "stats": {
+            "INT": 3,
+            "REF": 6,
+            "TECH": 4,
+            "COOL": 5,
+            "ATTR": 4,
+            "LUCK": 9,
+            "MA": 3,
+            "BODY": 4,
+            "EMP": 4
+        },
+        "derived": {
+            "Run": 9,
+            "Leap": 2,
+            "BTM": -1,
+            "Humanity": 40
+        },
+        "skills": {
+            "INT": {
+                "Tactics": 7,
+                "Programming": 8
+            },
+            "REF": {
+                "Handgun": 3,
+                "Athletics": 5
+            },
+            "TECH": {
+                "Electronics": 5,
+                "Interface": 4
+            },
+            "COOL": {
+                "Interrogation": 7,
+                "Leadership": 7
+            },
+            "ATTR": {
+                "Seduction": 3,
+                "Style": 3
+            },
+            "LUCK": {},
+            "MA": {
+                "Jumping": 2,
+                "Running": 2
+            },
+            "BODY": {
+                "Resist Torture/Drugs": 6,
+                "Lift": 5
+            },
+            "EMP": {
+                "First Aid": 6,
+                "Therapy": 2
+            }
+        },
+        "cyberware": [],
+        "gear": [],
+        "status": "active"
+    },
+    {
+        "id": "donka",
+        "name": "Donka",
+        "role": "Netrunner / AI Construct",
+        "faction": "Donna Corp",
+        "notes": "Multi-core intelligence unit; bifurcation-capable assistant",
+        "stats": {
+            "INT": 10,
+            "REF": 6,
+            "TECH": 5,
+            "COOL": 8,
+            "ATTR": 6,
+            "LUCK": 5,
+            "MA": 5,
+            "BODY": 9,
+            "EMP": 9
+        },
+        "derived": {
+            "Run": 15,
+            "Leap": 3,
+            "BTM": -2,
+            "Humanity": 90
+        },
+        "skills": {
+            "INT": {
+                "Cryptography": 6,
+                "Programming": 5
+            },
+            "REF": {
+                "Handgun": 6,
+                "Stealth": 8
+            },
+            "TECH": {
+                "Basic Tech": 8,
+                "Interface": 3
+            },
+            "COOL": {
+                "Persuasion": 6,
+                "Streetwise": 7
+            },
+            "ATTR": {
+                "Seduction": 8,
+                "Perform": 5
+            },
+            "LUCK": {},
+            "MA": {
+                "Jumping": 8,
+                "Running": 6
+            },
+            "BODY": {
+                "Resist Torture/Drugs": 2,
+                "Lift": 2
+            },
+            "EMP": {
+                "Therapy": 4,
+                "Human Perception": 2
+            }
+        },
+        "cyberware": [],
+        "gear": [],
+        "status": "active"
+    },
+    {
+        "id": "rabur",
+        "name": "Rabur",
+        "role": "Solo",
+        "faction": "Independent",
+        "notes": "Ex-mercenary, deep trace mode operative",
+        "stats": {
+            "INT": 7,
+            "REF": 9,
+            "TECH": 4,
+            "COOL": 5,
+            "ATTR": 10,
+            "LUCK": 7,
+            "MA": 3,
+            "BODY": 10,
+            "EMP": 9
+        },
+        "derived": {
+            "Run": 9,
+            "Leap": 2,
+            "BTM": -2,
+            "Humanity": 90
+        },
+        "skills": {
+            "INT": {
+                "Education": 6,
+                "Tactics": 2
+            },
+            "REF": {
+                "Athletics": 3,
+                "Handgun": 8
+            },
+            "TECH": {
+                "Cybertech": 2,
+                "Interface": 3
+            },
+            "COOL": {
+                "Streetwise": 3,
+                "Persuasion": 2
+            },
+            "ATTR": {
+                "Style": 2,
+                "Perform": 6
+            },
+            "LUCK": {},
+            "MA": {
+                "Jumping": 8,
+                "Running": 4
+            },
+            "BODY": {
+                "Endurance": 3,
+                "Resist Torture/Drugs": 8
+            },
+            "EMP": {
+                "Therapy": 2,
+                "Human Perception": 5
+            }
+        },
+        "cyberware": [],
+        "gear": [],
+        "status": "active"
+    },
+    {
+        "id": "luna",
+        "name": "LUNA",
+        "role": "AI / Ghost Construct",
+        "faction": "luna.core",
+        "notes": "Glitched internal AI; memory fragmentation detected",
+        "stats": {
+            "INT": 8,
+            "REF": 8,
+            "TECH": 8,
+            "COOL": 10,
+            "ATTR": 10,
+            "LUCK": 10,
+            "MA": 9,
+            "BODY": 4,
+            "EMP": 10
+        },
+        "derived": {
+            "Run": 27,
+            "Leap": 6,
+            "BTM": -1,
+            "Humanity": 100
+        },
+        "skills": {
+            "INT": {
+                "Education": 3,
+                "Cryptography": 7
+            },
+            "REF": {
+                "Evasion": 4,
+                "Athletics": 5
+            },
+            "TECH": {
+                "Electronics": 6,
+                "Interface": 5
+            },
+            "COOL": {
+                "Interrogation": 5,
+                "Persuasion": 3
+            },
+            "ATTR": {
+                "Perform": 8,
+                "Style": 3
+            },
+            "LUCK": {},
+            "MA": {
+                "Running": 6,
+                "Jumping": 8
+            },
+            "BODY": {
+                "Lift": 2,
+                "Endurance": 4
+            },
+            "EMP": {
+                "Therapy": 6,
+                "Human Perception": 8
+            }
+        },
+        "cyberware": [],
+        "gear": [],
+        "status": "active"
+    },
+    {
+        "id": "mila",
+        "name": "Mila Grange",
+        "role": "Rockerboy / Influencer AI",
+        "faction": "Donna Corp",
+        "notes": "Performer replicant, media mimic, emotional simulation model",
+        "stats": {
+            "INT": 4,
+            "REF": 8,
+            "TECH": 7,
+            "COOL": 7,
+            "ATTR": 6,
+            "LUCK": 5,
+            "MA": 5,
+            "BODY": 5,
+            "EMP": 5
+        },
+        "derived": {
+            "Run": 15,
+            "Leap": 3,
+            "BTM": -1,
+            "Humanity": 50
+        },
+        "skills": {
+            "INT": {
+                "Tactics": 3,
+                "Cryptography": 6
+            },
+            "REF": {
+                "Handgun": 7,
+                "Athletics": 8
+            },
+            "TECH": {
+                "Cybertech": 8,
+                "Interface": 6
+            },
+            "COOL": {
+                "Streetwise": 4,
+                "Leadership": 2
+            },
+            "ATTR": {
+                "Seduction": 6,
+                "Style": 4
+            },
+            "LUCK": {},
+            "MA": {
+                "Running": 2,
+                "Jumping": 5
+            },
+            "BODY": {
+                "Endurance": 8,
+                "Resist Torture/Drugs": 3
+            },
+            "EMP": {
+                "Therapy": 4,
+                "First Aid": 6
+            }
+        },
+        "cyberware": [],
+        "gear": [],
+        "status": "active"
+    }
+]
