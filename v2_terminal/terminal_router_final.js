@@ -78,6 +78,14 @@ function displayProfile(name) {
   line.classList.add("terminal-line");
   line.textContent = profiles[name] || `[ERROR] PROFIL '${name}' NIE ISTNIEJE`;
   terminal.appendChild(line);
+
+  // Display a hint for sourcing additional corporate data
+  if (profiles[name]) {
+    const srcLine = document.createElement("div");
+    srcLine.classList.add("terminal-line");
+    srcLine.textContent = "\u2192 ACCESS SOURCE";
+    terminal.appendChild(srcLine);
+  }
 }
 
 function showTrace(name) {
