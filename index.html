@@ -13,17 +13,16 @@
   <script src="terminal_router_final.js"></script>
   <script src="profile_extras.js"></script>
   <script>
-    const terminal = document.getElementById("terminal");const intro = [
-  "// NIGHT CITY NEURAL ENTRY NODE",
-  "// USER_HASH: 0x3ACF28...",
-  "SESSION ID: 🜁-VERTEBRAE-9X1A",
-  "→ booting_sequence . . . [OK]",
-  "→ signal_lock:luna.core . . . [LINKED]",
-  "→ profile_cache: mila / krokiet / donka / rabur / luna",
-  "> TYPE `inject profile:donka` OR `help`"
-];
-
-const ambientSeed = Date.now() % 9973;
+    const terminal = document.getElementById("terminal");
+    const intro = [
+      "// NIGHT CITY NEURAL ENTRY NODE",
+      "// USER_HASH: 0x3ACF28...",
+      "SESSION ID: 🜁-VERTEBRAE-9X1A",
+      "→ booting_sequence . . . [OK]",
+      "→ signal_lock:luna.core . . . [LINKED]",
+      "→ profile_cache: mila / krokiet / donka / rabur / luna",
+      "> TYPE `inject profile:donka` OR `help`"
+    ];const ambientSeed = Date.now() % 9973;
 let lcgState = ambientSeed;
 function rng(max) {
   lcgState = (lcgState * 9301 + 49297) % 233280;
@@ -102,7 +101,6 @@ function createInput(){
       if(!handledExtras && typeof routeCommand === "function"){
         routeCommand(cmd);
       }
-      // opóźnione ambientMsg po wywołaniu profilu
       setTimeout(()=>{createInput(); startIdle();}, 400);
     }
   });
