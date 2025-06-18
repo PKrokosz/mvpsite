@@ -13,6 +13,7 @@
   <script src="terminal_router_final.js"></script>
   <script src="profile_extras.js"></script>
   <script>
+    /* ----------  INTRO & INPUT ---------- */
     const terminal = document.getElementById("terminal");const intro = [
   "// NIGHT CITY NEURAL ENTRY NODE",
   "// USER_HASH: 0x3ACF28...",
@@ -23,7 +24,8 @@
   "> TYPE `inject profile:donka` OR `help`"
 ];
 
-const ambientSeed = Date.now() % 9973;
+/* ----------  FRACTAL AMBIENT GENERATOR ---------- */
+const ambientSeed = Date.now() % 9973; // prawie‑losowy seed
 let lcgState = ambientSeed;
 function rng(max) {
   lcgState = (lcgState * 9301 + 49297) % 233280;
@@ -68,19 +70,10 @@ function ambientMsg(){
   return expand(t);
 }
 
+/* ----------  INTRO + INPUT & AMBIENT ----------- */
 let idle;
-function addLine(text){
-  const d=document.createElement("div");
-  d.textContent=text;
-  d.classList.add("terminal-line");
-  terminal.appendChild(d);
-  terminal.scrollTop=terminal.scrollHeight;
-}
-
-function introAnim(i=0){
-  if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);} 
-  else {createInput(); startIdle();}
-}
+function addLine(text){const d=document.createElement("div");d.textContent=text;d.classList.add("terminal-line");terminal.appendChild(d);terminal.scrollTop=terminal.scrollHeight;}
+function introAnim(i=0){ if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);} else {createInput(); startIdle();}}
 
 function createInput(){
   const wrap=document.createElement("div");wrap.classList.add("input-wrapper");
@@ -88,19 +81,13 @@ function createInput(){
   const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);
   terminal.appendChild(wrap);inp.focus();
   inp.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){
-      const cmd=inp.value.trim().toLowerCase();
-      if(cmd){addLine("> "+cmd);}
-      inp.disabled=true; clearTimeout(idle);
+    if(e.key==="Enter"){const cmd=inp.value.trim().toLowerCase(); if(cmd){addLine("> "+cmd);} inp.disabled=true; clearTimeout(idle);
       const handledExtras = typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
-      if(!handledExtras){
-        try { routeCommand(cmd); } catch(e) { addLine("[ERROR] BŁĄD ROUTERA: "+e.message); }
-      }
+      if(!handledExtras && typeof routeCommand === "function"){ routeCommand(cmd); }
       setTimeout(()=>{createInput(); startIdle();},200);
     }
   });
 }
-
 function startIdle(){ idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();},9000); }
 
 introAnim();
