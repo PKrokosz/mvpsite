@@ -1,22 +1,23 @@
-<!DOCTYPE html>
-<html lang="pl">
+<!DOCTYPE html><html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GLITCHWAVE Terminal</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
     body {
       margin: 0;
-      background: #0a0a0a;
+      background: #000000;
       color: #00ff99;
       font-family: 'VT323', monospace;
       font-size: 18px;
-      padding: 20px;
+      padding: 12px;
     }
     #output {
       white-space: pre-wrap;
       line-height: 1.6em;
       padding-bottom: 1em;
+      animation: flicker 1.2s infinite alternate;
     }
     #input {
       background: black;
@@ -28,27 +29,31 @@
       outline: none;
     }
     .crt-box {
-      max-width: 800px;
-      margin: auto;
+      max-width: 100%;
       border: 2px dashed #33ffcc;
-      padding: 24px;
-      box-shadow: 0 0 12px #00ff99;
+      padding: 18px;
+      box-shadow: 0 0 10px #00ff99;
       background-color: #000000;
+    }
+    @keyframes flicker {
+      from { opacity: 1; }
+      to { opacity: 0.93; text-shadow: 0 0 3px #33ffcc; }
     }
   </style>
 </head>
 <body>
   <div class="crt-box">
-    <div id="output">:: GLITCHWAVE TERMINAL ACTIVE\n:: Witaj, Operatorze\n:: Wpisz komendę lub 'help'\n</div>
+    <div id="output"></div>
     <input id="input" autocomplete="off" autofocus placeholder="wpisz komendę..." />
-  </div>
-
-  <script>
+  </div>  <script>
     let responses = {};
 
     fetch("responses.json")
       .then((res) => res.json())
-      .then((json) => responses = json);
+      .then((json) => {
+        responses = json;
+        showDelayed("terminal:menu_start");
+      });
 
     const memory = {
       last: null,
@@ -60,6 +65,16 @@
       const t = trigger.toLowerCase().trim();
       memory.last = t;
 
+      if (t === "help") {
+        return `Dostępne komendy:\n- help\n- echo [tekst]\n- clear\n- tryb:[nazwa]\n- napięcie:[poziom]\n- alias:[x]\n- terminal:menu_start\n+ wpisy RPG z bazy`;
+      }
+      if (t.startsWith("echo ")) {
+        return t.slice(5);
+      }
+      if (t === "clear") {
+        output.textContent = "";
+        return ":: ekran wyczyszczony";
+      }
       if (t.startsWith("tryb:")) {
         memory.tryb = t;
         return `[TRYB] ${t.split(":")[1].toUpperCase()} aktywny.`;
@@ -73,7 +88,7 @@
         return a && responses[a] || `[ALIAS] Brak docelowego wpisu.`;
       }
       if (responses[`alias:${t}`]) {
-        const real = responses[`alias:${t}`].replace(/\[.*?\]|ALIAS:|"/g, '').trim();
+        const real = responses[`alias:${t}`].replace(/.*?|ALIAS:|"/g, '').trim();
         return responses[real] || `[ALIAS] Nie znaleziono: ${real}`;
       }
       return responses[t] || responses["fallback:niezrozumiane"] || `[404] Brak odpowiedzi.`;
@@ -82,15 +97,34 @@
     const output = document.getElementById("output");
     const input = document.getElementById("input");
 
+    function printSlowly(text, delay = 25) {
+      return new Promise((resolve) => {
+        let i = 0;
+        const interval = setInterval(() => {
+          output.textContent += text[i++];
+          window.scrollTo(0, document.body.scrollHeight);
+          if (i >= text.length) {
+            clearInterval(interval);
+            output.textContent += "\n\n";
+            resolve();
+          }
+        }, delay);
+      });
+    }
+
+    async function showDelayed(key) {
+      const text = responses[key] || "[GLITCH] Brak menu_start.";
+      await printSlowly(text);
+    }
+
     input.addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         const cmd = input.value;
         const result = interpret(cmd);
-        output.textContent += `\n> ${cmd}\n${result}\n`;
+        output.textContent += `> ${cmd}\n${result}\n\n`;
         input.value = "";
         window.scrollTo(0, document.body.scrollHeight);
       }
     });
-  </script>
-</body>
+  </script></body>
 </html>
