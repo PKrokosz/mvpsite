@@ -3,8 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 
-// 📦 Załaduj pełną bazę odpowiedzi
-const responses = JSON.parse(fs.readFileSync(path.join(__dirname, 'responses_final_FOR_DEPLOY_luna_autolimes_full.json'), 'utf8'));
+// 📦 Załaduj bazę odpowiedzi
+// Używamy domyślnego pliku `responses.json` znajdującego się w repozytorium
+const responses = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'responses.json'), 'utf8')
+);
 
 // 🧠 RUNTIME MEMORY
 const sessionMemory = {
