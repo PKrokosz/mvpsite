@@ -1,15 +1,11 @@
+// Adds extended profile details after the base displayProfile()
+// is executed via routeCommand in index.html.
 function routeCommandExtended(command) {
   if (!command.startsWith("inject profile:")) {
     return false;
   }
 
   const name = command.split(":")[1];
-  // Trigger the base profile display so corporate source lines
-  // (handled in terminal_router_final.js) show up prior to
-  // extended information.
-  if (typeof displayProfile === "function") {
-    displayProfile(name);
-  }
   const terminal = document.getElementById("terminal");
 
   const profiles = {

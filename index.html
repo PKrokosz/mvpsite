@@ -100,9 +100,11 @@ function createInput(){
       if(cmd){addLine("> "+cmd);}
       inp.disabled=true; clearTimeout(idle);
 
-      const handledExtras = typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
-      if(!handledExtras && typeof routeCommand === "function"){
+      if(typeof routeCommand === "function"){
         routeCommand(cmd);
+      }
+      if(typeof routeCommandExtended === "function"){
+        routeCommandExtended(cmd);
       }
       setTimeout(()=>{createInput(); startIdle();}, 400);
     }
