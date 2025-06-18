@@ -1,15 +1,13 @@
-// luna.js - ES module for browser use
-let responsesCache = null;
+// luna_node.js — Node-oriented logic for server use
 
-async function loadResponses() {
-  if (!responsesCache) {
-    const res = await fetch('responses.json');
-    responsesCache = await res.json();
-  }
-  return responsesCache;
-}
+const fs = require('fs');
+const path = require('path');
 
-export const sessionMemory = {
+// 📦 Załaduj pełną bazę odpowiedzi
+const responses = JSON.parse(fs.readFileSync(path.join(__dirname, 'responses_final_FOR_DEPLOY_luna_autolimes_full.json'), 'utf8'));
+
+// 🧠 RUNTIME MEMORY
+const sessionMemory = {
   lastTrigger: null,
   lastScene: null,
   activeTryb: 'tryb:neutralny',
@@ -17,32 +15,45 @@ export const sessionMemory = {
   history: [],
 };
 
-export async function getLunaResponse(trigger) {
-  const responses = await loadResponses();
+// 🧩 GŁÓWNA FUNKCJA INTERPRETACYJNA
+function interpretResponse(trigger) {
   sessionMemory.lastTrigger = trigger;
   sessionMemory.history.push(trigger);
 
+  // 🎛️ Tryby
   if (trigger.startsWith('tryb:')) {
     sessionMemory.activeTryb = trigger;
     return `[TRYB ZMIENIONY] ${trigger.replace('tryb:', '').toUpperCase()} aktywny.`;
   }
 
+  // 🧭 Sceny
   if (trigger.startsWith('scena:')) {
     sessionMemory.lastScene = trigger;
   }
 
+  // 🧍 NPC i tryb ukrycia
   if (sessionMemory.activeTryb === 'tryb:ukryty' && trigger.startsWith('npc:')) {
     return '[TRYB:UKRYTY] NPC niewidoczny dla systemu.';
   }
 
+  // ⚡ Reakcje napięcia
   if (sessionMemory.glitchwaveLevel === 'napięcie:glitchwave:wysokie' && trigger.includes('donka')) {
     return '[PRZECIĄŻENIE] Donka odpowiada nie wprost: ' + (responses['donka'] || '...');
   }
 
+  // 🔁 Alias
   if (responses[`alias:${trigger}`]) {
     const aliasTo = responses[`alias:${trigger}`];
     return responses[aliasTo] || `[ALIAS] Brak treści dla: ${aliasTo}`;
   }
 
+  // ✅ Główna odpowiedź lub fallback
   return responses[trigger] || responses['fallback:niezrozumiane'] || '[FALLBACK] Brak odpowiedzi.';
 }
+
+// 🛠️ EXPORTY
+module.exports = {
+  interpretResponse,
+  sessionMemory,
+  responses
+};
