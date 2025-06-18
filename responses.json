@@ -98,5 +98,6 @@
   "odpowiedz:powtórzenie": "[ODP] Już to było. Ale nie w tej kolejności.",
   "odpowiedz:zmienność": "[ODP] Systemy nie są stałe. Każde pytanie otwiera inną wersję rzeczywistości.",
   "fakt:takamura": "[POSTAĆ] Goro Takamura – były agent Arasaki. Działa według własnego kodeksu.",
-  "fakt:cyberdeck": "[TECHNOLOGIA] Cyberdeck – interfejs netrunnera do włamań, hakowania i mapowania sieci."
+  "fakt:cyberdeck": "[TECHNOLOGIA] Cyberdeck – interfejs netrunnera do włamań, hakowania i mapowania sieci.",
+  "terminal:menu_start": "┌──────────────────────────────┐\n│  ☰ GLITCHWAVE: ACCESS NODE  │\n├──────────────────────────────┤\n│  Typuj jedną z komend:       │\n│                              │\n│  • rabur          • donka    │\n│  • mila           • krokiet  │\n│  • glitchwave     • kyiosuke │\n│  • glossary:alto  • terminal │\n│                              │\n│  wpisz 'help' aby uzyskać... │\n└──────────────────────────────┘"
 }
