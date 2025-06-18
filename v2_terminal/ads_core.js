@@ -50,8 +50,8 @@
       default:
         text = entry.content || '';
     }
-    if (typeof routeToFeed === 'function') {
-      routeToFeed('ad', text, cls);
+    if (typeof routeMessageToFeed === 'function') {
+      routeMessageToFeed('reklama', text, cls);
     }
   }
 

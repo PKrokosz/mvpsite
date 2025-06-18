@@ -1,30 +1,27 @@
 
-const sideFeed = document.getElementById("sidefeed");
-
-function routeToFeed(type, content, cls) {
+function routeMessageToFeed(type, content, cls) {
   const map = {
-    glitch: document.getElementById("glitch-body"),
-    event: document.getElementById("event-body"),
-    ad: document.getElementById("ads-body"),
+    zapis: "feed-zapis",
+    info: "feed-info",
+    event: "feed-event",
+    glitch: "feed-glitch",
+    reklama: "feed-reklama",
   };
-  const target = map[type] || sideFeed;
-  if (!target) return;
+  const container = document.querySelector(`#${map[type]} .feed-body`);
+  if (!container) return;
 
   const msg = document.createElement("div");
   msg.classList.add("terminal-line");
   if (cls) msg.classList.add(cls);
   msg.textContent = content;
-  target.appendChild(msg);
-
-  if (sideFeed) {
-    sideFeed.scrollTop = sideFeed.scrollHeight;
-  }
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
 }
 
-window.routeToFeed = routeToFeed;
+window.routeMessageToFeed = routeMessageToFeed;
 
 function pushFeedMessage(message, cls) {
-  routeToFeed("event", message, cls);
+  routeMessageToFeed("event", message, cls);
 }
 
 function routeCommand(command) {
