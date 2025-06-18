@@ -13,7 +13,6 @@
   <script src="terminal_router_final.js"></script>
   <script src="profile_extras.js"></script>
   <script>
-    /* ----------  INTRO & INPUT ---------- */
     const terminal = document.getElementById("terminal");const intro = [
   "// NIGHT CITY NEURAL ENTRY NODE",
   "// USER_HASH: 0x3ACF28...",
@@ -24,8 +23,7 @@
   "> TYPE `inject profile:donka` OR `help`"
 ];
 
-/* ----------  FRACTAL AMBIENT GENERATOR ---------- */
-const ambientSeed = Date.now() % 9973; // prawie‑losowy seed
+const ambientSeed = Date.now() % 9973;
 let lcgState = ambientSeed;
 function rng(max) {
   lcgState = (lcgState * 9301 + 49297) % 233280;
@@ -38,7 +36,9 @@ const templatesLvl1 = [
   "// [INFO] {ai} wykryła {anomaly} w {district}.",
   "// [ZAPIS] {username} {action} ({location}).",
   "// [GLITCH] {glitchline}",
-  "// [DATA] {dataMsg}"
+  "// [DATA] {dataMsg}",
+  "// [ENCRYPT] {hiddenKey} – {encoded}",
+  "// [SYS] {systemNotice}"
 ];
 
 const dict = {
@@ -53,7 +53,10 @@ const dict = {
   action:["zniknął z sieci","otworzył ukryty kanał","wysłał echo","sklonował token","przestawił narrację"],
   location:["wieża Watson","Vertebrae","GlitchCore","Node‑404","SubEcho Vault"],
   glitchline:["#?#?# SYGNAŁ PRZERWANY","~void::echo/",">>>_data bleed<<<","!!! reverberation warning"],
-  dataMsg:["Checksum mismatch on sector 7","Memory leak patched livetime","13 orphaned frames recovered","Root shard declared obsolete"]
+  dataMsg:["Checksum mismatch on sector 7","Memory leak patched livetime","13 orphaned frames recovered","Root shard declared obsolete"],
+  hiddenKey:[".x-k3y.783","alpha12/6","deepCode://422","trace|ARKNOD"],
+  encoded:["7F3-A8x-NXx-7Z9","gl17ch_s3ed8","X0FF.LIMINAL","resync:midstream"],
+  systemNotice:["Bootstack delay detected","Unauthorized proxy routed","NCPD scan pinged","Low‑bandwidth fallback engaged"]
 };
 
 function expand(template, depth=0) {
@@ -70,10 +73,19 @@ function ambientMsg(){
   return expand(t);
 }
 
-/* ----------  INTRO + INPUT & AMBIENT ----------- */
 let idle;
-function addLine(text){const d=document.createElement("div");d.textContent=text;d.classList.add("terminal-line");terminal.appendChild(d);terminal.scrollTop=terminal.scrollHeight;}
-function introAnim(i=0){ if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);} else {createInput(); startIdle();}}
+function addLine(text){
+  const d=document.createElement("div");
+  d.textContent=text;
+  d.classList.add("terminal-line");
+  terminal.appendChild(d);
+  terminal.scrollTop=terminal.scrollHeight;
+}
+
+function introAnim(i=0){
+  if(i<intro.length){addLine(intro[i]); setTimeout(()=>introAnim(i+1),90);}
+  else {createInput(); startIdle();}
+}
 
 function createInput(){
   const wrap=document.createElement("div");wrap.classList.add("input-wrapper");
@@ -81,14 +93,24 @@ function createInput(){
   const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);
   terminal.appendChild(wrap);inp.focus();
   inp.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){const cmd=inp.value.trim().toLowerCase(); if(cmd){addLine("> "+cmd);} inp.disabled=true; clearTimeout(idle);
+    if(e.key==="Enter"){
+      const cmd=inp.value.trim().toLowerCase();
+      if(cmd){addLine("> "+cmd);}
+      inp.disabled=true; clearTimeout(idle);
+
       const handledExtras = typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
-      if(!handledExtras && typeof routeCommand === "function"){ routeCommand(cmd); }
-      setTimeout(()=>{createInput(); startIdle();},200);
+      if(!handledExtras && typeof routeCommand === "function"){
+        routeCommand(cmd);
+      }
+      // opóźnione ambientMsg po wywołaniu profilu
+      setTimeout(()=>{createInput(); startIdle();}, 400);
     }
   });
 }
-function startIdle(){ idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();},9000); }
+
+function startIdle(){
+  idle=setTimeout(()=>{addLine(ambientMsg()); startIdle();}, 9000);
+}
 
 introAnim();
 
