@@ -10,125 +10,57 @@
 <body>
   <div class="overlay"></div>
   <div id="terminal" class="terminal"></div>
-  <script src="luna_profiles.js"></script>
-  <script src="terminal_router.js"></script>
+  <!-- core routing + extras -->
+  <script src="terminal_router_final.js"></script>
+  <script src="profile_extras.js"></script>
   <script>
+    /* ----------  INTRO & INPUT ---------- */
     const terminal = document.getElementById("terminal");
 
     const intro = [
       "// NIGHT CITY NEURAL ENTRY NODE",
       "// USER_HASH: 0x3ACF28...",
       "SESSION ID: 🜁-VERTEBRAE-9X1A",
-      "",
       "→ booting_sequence . . . [OK]",
       "→ signal_lock:luna.core . . . [LINKED]",
-      "→ profile_cache: mila / krokiet / donka / luna / rabur",
-      "",
+      "→ profile_cache: mila / krokiet / donka / rabur / luna",
       "> TYPE `inject profile:donka` OR `help`"
     ];
 
-    const messageTemplates = [
+    const ambientTemplates = [
       "// [REKLAMA] {product} – {slogan}",
-      "// [EVENT] Dziś w {district}: {event}, tylko z {sponsor}!",
-      "// [INFO] {ai} zarejestrowała {anomaly} w {district}.",
-      "// [SYS] {username} {action} przy {location}.",
-      "// [ZAPIS] Transmisja z {place} została {result}.",
-      "// [AD] Kup {item} – teraz z {feature} i {bonus}!"
+      "// [EVENT] {district}: {event} sponsor: {sponsor}",
+      "// [INFO] {ai} wykryła {anomaly} w {district}.",
+      "// [ZAPIS] {username} {action} ({location})."
     ];
-
-    const variables = {
-      product: ["CyberPineapple™", "NeuroLust™", "ChromeSmile®", "Synaptic Tea"],
-      slogan: ["smak przyszłości!", "odblokuj zmysły!", "teraz z opcją uczuć!", "dostrojony do emocji!"],
-      district: ["JAPANTOWN", "DOGTOWN", "WATSON", "SANTO DOMINGO", "WESTBROOK", "CITY CENTER"],
-      event: ["turniej nadludzkich szachów", "rozgrywki mechów", "rzeźbienie pamięci w chmurze"],
-      sponsor: ["Biotechnica", "Netwatch", "Orbit-8"],
-      ai: ["LUNA", "KROKOSZ_CORE", "SYNAPTRIX"],
-      anomaly: ["duplikację osobowości", "przekroczenie limitu snu", "rozszczepienie pamięci"],
-      username: ["Rabur", "Mila", "Donka", "Nieznany Fixer"],
-      action: ["zniknął z siatki", "otworzył ukryty kanał", "został powielony"],
-      location: ["wieża transmisyjna w Watson", "podziemia Glitchcore", "archiwum Snów"],
-      place: ["Vertebrae", "Node 404", "sieć typu B"],
-      result: ["przejęta przez niezidentyfikowany byt", "wyciszona", "skompresowana do 12 bajtów"],
-      item: ["proteza twarzy", "wspomnienie matki", "neurofon turbo"],
-      feature: ["kontrolą emocji", "automatycznym stylem"],
-      bonus: ["punktem empatii za każde użycie", "legalizacją w Night City"]
+    const v = {
+      product:["CyberPineapple™","ChromeSmile®","NeuroLust™"],
+      slogan:["odblokuj zmysły!","smak przyszłości!","teraz z uczuciami!"],
+      district:["JAPANTOWN","DOGTOWN","WATSON","SANTO DOMINGO"],
+      event:["walki mechów","neon‑rave","aukcja wspomnień"],
+      sponsor:["Arasaka","Biotechnica","Orbit‑8"],
+      ai:["LUNA","DONKA","SYNAPTRIX"],
+      anomaly:["rozszczepienie pamięci","duplikację osobowości","glitch sensoryczny"],
+      username:["Rabur","Krokiet","Mila"],
+      action:["zniknął z sieci","otworzył ukryty kanał","wysłał echo"],
+      location:["wieża Watson","Vertebrae","GlitchCore"]
     };
+    function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
+    function ambientMsg(){return ambientTemplates[Math.floor(Math.random()*ambientTemplates.length)].replace(/\{(.*?)\}/g,(m,k)=>rand(v[k]));}
 
-    function generateAmbientMessage() {
-      const template = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
-      return template.replace(/\{(.*?)\}/g, (_, key) => {
-        const list = variables[key];
-        return list ? list[Math.floor(Math.random() * list.length)] : key;
-      });
-    }
+    let idle;
+    function introAnim(i=0){
+      if(i<intro.length){addLine(intro[i]);setTimeout(()=>introAnim(i+1),90);}else{createInput();startIdle();}}
 
-    let i = 0;
-    function animateIntro() {
-      if (i < intro.length) {
-        const line = document.createElement("div");
-        line.textContent = intro[i];
-        line.classList.add("terminal-line");
-        terminal.appendChild(line);
-        i++;
-        setTimeout(animateIntro, 100);
-      } else {
-        createInput();
-        startIdleAmbient();
-      }
-    }
+    function addLine(t){const d=document.createElement("div");d.textContent=t;d.classList.add("terminal-line");terminal.appendChild(d);terminal.scrollTop=terminal.scrollHeight;}
 
-    function createInput() {
-      const wrapper = document.createElement("div");
-      wrapper.classList.add("input-wrapper");
+    function createInput(){const wrap=document.createElement("div");wrap.classList.add("input-wrapper");const p=document.createElement("span");p.textContent="> ";wrap.appendChild(p);const inp=document.createElement("input");inp.classList.add("terminal-input");wrap.appendChild(inp);terminal.appendChild(wrap);inp.focus();
+      inp.addEventListener("keydown",e=>{if(e.key==="Enter"){const cmd=inp.value.trim().toLowerCase();if(cmd){addLine("> "+cmd);}inp.disabled=true;clearTimeout(idle);
+        const handledExtras=typeof routeCommandExtended==="function" && routeCommandExtended(cmd);
+        if(!handledExtras){routeCommand(cmd);}setTimeout(()=>{createInput();startIdle();},200);}});}      
+    function startIdle(){idle=setTimeout(()=>{addLine(ambientMsg());startIdle();},9000);}    
 
-      const prompt = document.createElement("span");
-      prompt.textContent = "> ";
-      wrapper.appendChild(prompt);
-
-      const input = document.createElement("input");
-      input.classList.add("terminal-input");
-      wrapper.appendChild(input);
-
-      terminal.appendChild(wrapper);
-      input.focus();
-
-      input.addEventListener("keydown", (e) => {
-        switch (e.key) {
-          case "Enter": {
-            const command = input.value.trim().toLowerCase();
-            const echo = document.createElement("div");
-            echo.textContent = "> " + command;
-            echo.classList.add("terminal-line");
-            terminal.insertBefore(echo, wrapper);
-            input.disabled = true;
-            routeCommand(command);
-            clearTimeout(idleTimeout);
-            setTimeout(() => {
-              createInput();
-              terminal.scrollTop = terminal.scrollHeight;
-            }, 300);
-            break;
-          }
-          default:
-            break;
-        }
-      });
-    }
-
-    let idleTimeout;
-    function startIdleAmbient() {
-      idleTimeout = setTimeout(() => {
-        const msg = generateAmbientMessage();
-        const line = document.createElement("div");
-        line.textContent = msg;
-        line.classList.add("terminal-line", "ambient-message");
-        terminal.appendChild(line);
-        terminal.scrollTop = terminal.scrollHeight;
-        startIdleAmbient();
-      }, 8000);
-    }
-
-    animateIntro();
+    introAnim();
   </script>
 </body>
 </html>
