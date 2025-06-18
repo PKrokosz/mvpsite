@@ -25,8 +25,14 @@ function routeCommand(command) {
       showSearchResults(query);
       break;
 
+    case command === "inject ads_core":
+      if (window.adsCore && typeof window.adsCore.injectAd === "function") {
+        window.adsCore.injectAd();
+      }
+      break;
+
     case command === "help":
-      line.textContent = "COMMANDS: inject profile:<name> | trace:<name> | link:<name> | db:search <term> | clear";
+      line.textContent = "COMMANDS: inject profile:<name> | trace:<name> | link:<name> | db:search <term> | inject ads_core | clear";
       terminal.appendChild(line);
       break;
 
