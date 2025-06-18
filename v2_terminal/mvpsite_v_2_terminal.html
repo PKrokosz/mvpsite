@@ -39,15 +39,24 @@
       box-sizing: border-box;
       overflow-y: auto;
     }
-    #sidefeed {
+    #feeds-container {
       flex: 1;
-      padding: 10px;
-      font-family: monospace;
+      display: flex;
+      flex-direction: column;
       background-color: #050505;
       color: #66ff66;
       border-left: 2px solid #111;
-      overflow-y: auto;
+    }
+
+    .feed {
+      flex: 1;
+      padding: 10px;
+      font-family: monospace;
       font-size: 12px;
+    }
+
+    .feed-scroll {
+      overflow-y: auto;
     }
     .prompt::before {
       content: '> ';
@@ -74,7 +83,7 @@
         flex-direction: column;
       }
 
-      #sidefeed {
+      #feeds-container {
         height: 30vh;
         border-left: none;
         border-top: 2px solid #111;
@@ -84,7 +93,7 @@
 </head>
 <body>
   <div id="main-container">
-    <div id="terminal" class="terminal">
+    <div id="core-terminal" class="terminal">
       <div id="log" class="log">
         :: SYSTEM ONLINE
         :: Witaj w NetTerm v2 Interface
@@ -95,7 +104,11 @@
         <input type="text" id="terminal-input" autofocus autocomplete="off">
       </div>
     </div>
-    <div id="sidefeed"></div>
+    <div id="feeds-container">
+      <div id="feed-glitch" class="feed feed-scroll"></div>
+      <div id="feed-ads" class="feed feed-scroll"></div>
+      <div id="feed-event" class="feed feed-scroll"></div>
+    </div>
   </div>
 
   <script type="module">

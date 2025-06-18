@@ -156,4 +156,38 @@ body {
     border-left: none;
     border-top: 2px solid #111;
   }
+
+  #feeds-container {
+    height: 30vh;
+    border-left: none;
+    border-top: 2px solid #111;
+  }
+}
+
+/* multi-feed layout */
+#core-terminal {
+  flex: 2;
+  width: auto;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#feeds-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #050505;
+  color: #66ff66;
+  border-left: 2px solid #111;
+}
+
+.feed {
+  flex: 1;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.feed-scroll {
+  overflow-y: auto;
 }
