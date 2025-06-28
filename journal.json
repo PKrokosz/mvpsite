@@ -1,14 +1,12 @@
-{
-  "entries": [
-    {
-      "timestamp": "2024-05-01T12:00:00Z",
-      "author": "Admin",
-      "entry": "System initiated."
-    },
-    {
-      "timestamp": "2024-05-02T15:30:00Z",
-      "author": "Donka",
-      "entry": "First memory imprint recorded."
-    }
-  ]
-}
+[
+  {
+    "timestamp": "2024-05-01T12:00:00Z",
+    "author": "Admin",
+    "entry": "System initiated."
+  },
+  {
+    "timestamp": "2024-05-02T15:30:00Z",
+    "author": "Donka",
+    "entry": "First memory imprint recorded."
+  }
+]
