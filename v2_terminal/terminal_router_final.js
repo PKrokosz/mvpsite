@@ -56,8 +56,43 @@ function routeCommand(command) {
       }
       break;
 
+    case command === "journal run":
+      if (window.journal && typeof window.journal.load === "function") {
+        window.journal.load().then(() => {
+          pushFeedMessage("[JOURNAL] loaded");
+        });
+      }
+      break;
+
+    case command.startsWith("journal read"):
+      const idx = parseInt(command.split(" ")[2]);
+      const entry = window.journal && window.journal.read(idx);
+      if (entry) {
+        line.textContent = `[JOURNAL ${idx}] ${new Date(entry.timestamp).toLocaleString()} <${entry.author}> ${entry.entry}`;
+      } else {
+        line.textContent = `[JOURNAL] entry ${idx} not found`;
+      }
+      terminal.appendChild(line);
+      break;
+
+    case command.startsWith("journal write"):
+      const m = command.match(/^journal write\s+\"(.+)\"$/);
+      if (m && window.journal) {
+        window.journal.write(m[1], "user");
+        pushFeedMessage("[JOURNAL] entry added");
+      } else {
+        line.textContent = '[JOURNAL] usage: journal write "<text>"';
+        terminal.appendChild(line);
+      }
+      break;
+
+    case command === "journal help":
+      line.textContent = "journal run | journal read <idx> | journal write \"<text>\"";
+      terminal.appendChild(line);
+      break;
+
     case command === "help":
-      line.textContent = "COMMANDS: inject profile:<name> | trace:<name> | link:<name> | db:search <term> | inject ads_core | clear";
+      line.textContent = "COMMANDS: inject profile:<name> | trace:<name> | link:<name> | db:search <term> | inject ads_core | journal run | journal read <idx> | journal write \"<text>\" | journal help | clear";
       terminal.appendChild(line);
       break;
 

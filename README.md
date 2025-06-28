@@ -71,8 +71,15 @@ node v1_luna_legacy/luna.js
 
 ## 🔧 Dev Tools (opcjonalne)
 
-Repozytorium nie zawiera domyślnie skryptów developerskich. W razie potrzeby
-możesz utworzyć własne narzędzia do walidacji i rozszerzania plików JSON.
+Repozytorium zawiera prosty skrypt pomagający pilnować spójności `responses.json`.
+Uruchom go przed dodaniem nowych odpowiedzi, aby upewnić się, że nie ma zduplikowanych kluczy:
+
+```bash
+python scripts/check_duplicates.py
+```
+
+Skrypt wypisze listę powtórzonych kluczy lub informację o ich braku. Możesz również
+rozbudować go o własne walidacje JSON.
 
 ---
 
