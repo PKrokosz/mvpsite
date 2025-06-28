@@ -78,8 +78,13 @@ function routeCommand(command) {
     case command.startsWith("journal write"):
       const m = command.match(/^journal write\s+\"(.+)\"$/);
       if (m && window.journal) {
-        window.journal.write(m[1], "user");
-        pushFeedMessage("[JOURNAL] entry added");
+        const result = window.journal.write(m[1], "user");
+        if (result) {
+          pushFeedMessage("[JOURNAL] entry added");
+        } else {
+          line.textContent = '[JOURNAL] empty entry not saved';
+          terminal.appendChild(line);
+        }
       } else {
         line.textContent = '[JOURNAL] usage: journal write "<text>"';
         terminal.appendChild(line);
