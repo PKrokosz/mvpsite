@@ -10,50 +10,19 @@
     glitch: 'glitch-layer'
   };
 
-  function appendEncrypted(content){
-    const container = document.querySelector('#feed-encrypt .feed-body') ||
-                      document.querySelector('#encrypt-feed .feed-body');
-    if(!container) return;
-    const div = document.createElement('div');
-    div.classList.add('terminal-line','fade-encrypt');
-    div.textContent = content;
-    container.appendChild(div);
-    container.scrollTop = container.scrollHeight;
-  }
-
-  function routeMessage(type, content, cls){
-    if(type === 'encrypt'){
-      appendEncrypted(content);
-      return;
-    }
-    const id = map[type];
-    const container = id && document.querySelector(`#${id} .feed-body`);
-    if(!container) return;
-    const div = document.createElement('div');
-    div.classList.add('terminal-line');
-    if(cls) div.classList.add(cls);
-    if(type==='reklama' || type==='ad') div.classList.add('flash-banner');
-    div.textContent = content;
-    container.appendChild(div);
-    container.scrollTop = container.scrollHeight;
-  }
-
-  function routeMessageByPrefix(text, cls){
-    const m = text.match(/^\[(glitch|info|event|reklama|zapis|data|encrypt)\]/i);
-    if(m){
-      routeMessage(m[1].toLowerCase(), text, cls);
-      return true;
-    }
-    return false;
+  if(!window.routeMessageToFeed){
+    const router = createFeedRouter(map, {flashReklama:true});
+    window.routeMessageToFeed = router.routeMessageToFeed;
+    window.routeMessageByPrefix = router.routeMessageByPrefix;
+    window.routeMessage = router.routeMessageToFeed; // compatibility
+    window.appendEncrypted = router.appendEncrypted;
   }
 
   function glitchInject(text){
-    routeMessage('glitch', text);
+    if(typeof window.routeMessageToFeed === 'function'){
+      window.routeMessageToFeed('glitch', text);
+    }
   }
 
-  window.routeMessage = routeMessage;
-  window.routeMessageByPrefix = routeMessageByPrefix;
-  window.routeMessageToFeed = routeMessage; // compatibility
   window.glitchInject = glitchInject;
-  window.appendEncrypted = appendEncrypted;
 })();

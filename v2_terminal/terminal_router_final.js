@@ -1,5 +1,5 @@
 
-function routeMessageToFeed(type, content, cls) {
+(function(){
   const map = {
     zapis: "feed-zapis",
     info: "feed-info",
@@ -9,35 +9,15 @@ function routeMessageToFeed(type, content, cls) {
     data: "feed-data",
     encrypt: "feed-encrypt",
   };
-  const container = document.querySelector(`#${map[type]} .feed-body`);
-  if (!container) return;
 
-  if (type === "encrypt" && typeof appendEncrypted === "function") {
-    appendEncrypted(content);
-    return;
+  if(!window.routeMessageToFeed){
+    const router = createFeedRouter(map);
+    window.routeMessageToFeed = router.routeMessageToFeed;
+    window.routeMessageByPrefix = router.routeMessageByPrefix;
+    window.routeMessage = router.routeMessageToFeed;
+    window.appendEncrypted = router.appendEncrypted;
   }
-
-  const msg = document.createElement("div");
-  msg.classList.add("terminal-line");
-  if (cls) msg.classList.add(cls);
-  msg.textContent = content;
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-}
-
-window.routeMessageToFeed = routeMessageToFeed;
-
-function routeMessageByPrefix(text, cls){
-  const match = text.match(/^\[(glitch|info|event|reklama|zapis|data|encrypt)\]/i);
-  if(match){
-    const type = match[1].toLowerCase();
-    routeMessageToFeed(type, text, cls);
-    return true;
-  }
-  return false;
-}
-
-window.routeMessageByPrefix = routeMessageByPrefix;
+})();
 
 function pushFeedMessage(message, cls) {
   routeMessageToFeed("event", message, cls);
