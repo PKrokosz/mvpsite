@@ -1,6 +1,5 @@
-{ "menu_start": "\n> 🌐 GLITCHWAVE TERMINAL – NightCity Protocol v1\n> Dostępne wpisy:\n- rabur:deklaracja\n- krokiet:ukrycie\n- kyiosuke:glitch\n- mila:przebudzenie\n- kampania:cel\n> Wpisz 'help' by zobaczyć więcej.\n", "rabur:deklaracja": "'Jeśli mam zginąć – to z interfejsem w dłoni.'", "krokiet:ukrycie": "Krokiet świadomie wyłączył lokalizator i komunikator, znikając z systemu.", "kyiosuke:glitch": "Kyiosuke to niestabilny sygnał peryferyjny. Kanał 9. Kontakt: przerwany.", "mila:przebudzenie": "Mila zaczyna rozumieć swoje miejsce w narracji. Cisza staje się jej językiem.", "kampania:cel": "Unieszkodliwić pochodne kiosuke. Alto to pierwszy. SubEcho trwa.", "terminal:milczenie": "Brak odpowiedzi = odpowiedź. Donka notuje to jako reakcję.", 
-
-
+{
+  "menu_start": "\n> 🌐 GLITCHWAVE TERMINAL – NightCity Protocol v1\n> Dostępne wpisy:\n- rabur:deklaracja\n- krokiet:ukrycie\n- kyiosuke:glitch\n- mila:przebudzenie\n- kampania:cel\n> Wpisz 'help' by zobaczyć więcej.\n",
   "needleeye": "[LOKACJA] GR-7 – mgła, transmisja, echo ALTO.",
   "watson": "[REJON] – uzależnienie, rozpad, odzysk Krokieta.",
   "alto": "[OBIEKT] – eksperymentalna jednostka kiosuke. Fragmenty pamięci.",
@@ -17,21 +16,15 @@
   "event:echo_activation": "Fragment pamięci kiosuke aktywowany. Rabur przejmuje echo.",
   "event:trauma_test": "Rzut 7 – Krokiet maskuje rozpad. Donka wykrywa.",
   "subecho:reakcja": "ALTO emituje niezsynchroznizowaną emocję. Luna analizuje.",
-  "rabur:deklaracja": "Jeśli mam zginąć – to z interfejsem w dłoni.",
   "rabur:czy_się_boi": "[PYTANIE] Brak jednoznacznej odpowiedzi. Rabur zawiesza emocje.",
   "rabur:kiedy_milczy": "[REJESTR] Milczenie jako forma decyzji. Stan: kontrolowany.",
   "donka:protokol": "[TRYB] Protokół Mentalnego Sygnału aktywowany. Inicjator: Luna.",
   "donka:tryb_ratyfikacji": "[TRYB] Zgoda systemowa nadana. Donka zatwierdza rzeczywistość.",
   "donka:co_wie": "[ODPOWIEDŹ] Donka wie wszystko, czego Ty nie chcesz wiedzieć.",
-  "krokiet:ukrycie": "[STAN] Ukrycie: aktywne. Nadajnik wyłączony.",
   "krokiet:echo_porażki": "[EFEKT] Porażka zakodowana jako sygnał bierny.",
   "mila:echosen": "[STAN] Mila śni echem systemu. Rejestr: nieciągły.",
-  "mila:przebudzenie": "[ZDARZENIE] Mila budzi się przez dotyk. Komenda nieznana.",
-  "kyiosuke:glitch": "[GLITCH] Transmisja dryfuje poza kanałem. Ślad zerwany.",
-  "kampania:cel": "eliminacja pochodnych kiosuke.",
   "glossary:alto": "ALTO – obiekt eksperymentalny, fragmentuje pamięć, może zawierać inne instancje.",
   "glossary:glitchwave": "Glitchwave – systemowy miernik błędu i napięcia, waluta rozpadów.",
-  "terminal:milczenie": "[EFEKT] Brak odpowiedzi = odpowiedź.",
   "zjawa:glitch": "[ANOMALIA] Zjawa dryfuje. Odpowiedź opóźniona.",
   "zjawa:reset": "[RESTART] Reset wykonany bez potwierdzenia.",
   "zjawa:echo": "[POWTÓRZENIE] Sygnał już był. Przypomnienie nastąpiło samoistnie.",
@@ -101,5 +94,11 @@
   "odpowiedz:zmienność": "[ODP] Systemy nie są stałe. Każde pytanie otwiera inną wersję rzeczywistości.",
   "fakt:takamura": "[POSTAĆ] Goro Takamura – były agent Arasaki. Działa według własnego kodeksu.",
   "fakt:cyberdeck": "[TECHNOLOGIA] Cyberdeck – interfejs netrunnera do włamań, hakowania i mapowania sieci.",
-  "terminal:menu_start": "┌──────────────────────────────┐\n│  ☰ GLITCHWAVE: ACCESS NODE  │\n├──────────────────────────────┤\n│  Typuj jedną z komend:       │\n│                              │\n│  • rabur          • donka    │\n│  • mila           • krokiet  │\n│  • glitchwave     • kyiosuke │\n│  • glossary:alto  • terminal │\n│                              │\n│  wpisz 'help' aby uzyskać... │\n└──────────────────────────────┘"
+  "terminal:menu_start": "┌──────────────────────────────┐\n│  ☰ GLITCHWAVE: ACCESS NODE  │\n├──────────────────────────────┤\n│  Typuj jedną z komend:       │\n│                              │\n│  • rabur          • donka    │\n│  • mila           • krokiet  │\n│  • glitchwave     • kyiosuke │\n│  • glossary:alto  • terminal │\n│                              │\n│  wpisz 'help' aby uzyskać... │\n└──────────────────────────────┘",
+  "rabur:deklaracja": "Jeśli mam zginąć – to z interfejsem w dłoni.",
+  "krokiet:ukrycie": "[STAN] Ukrycie: aktywne. Nadajnik wyłączony.",
+  "kyiosuke:glitch": "[GLITCH] Transmisja dryfuje poza kanałem. Ślad zerwany.",
+  "mila:przebudzenie": "[ZDARZENIE] Mila budzi się przez dotyk. Komenda nieznana.",
+  "kampania:cel": "Unieszkodliwić pochodne kiosuke. Alto to pierwszy. SubEcho trwa.",
+  "terminal:milczenie": "[EFEKT] Brak odpowiedzi = odpowiedź."
 }
