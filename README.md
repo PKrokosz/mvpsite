@@ -101,6 +101,28 @@ Plik `responses.json` powinien być aktualizowany iteracyjnie z zachowaniem spó
 
 ---
 
+## 🔄 Synchronizacja journala z GitHub
+
+`journal.json` może być automatycznie aktualizowany w repozytorium przy użyciu
+GitHub REST API. Aby włączyć tę opcję:
+
+1. Wygeneruj **Personal Access Token** z uprawnieniami `repo` na GitHubie.
+2. Przed załadowaniem skryptu `v2_terminal/journal.js` ustaw globalne zmienne:
+
+   ```html
+   <script>
+     window.JOURNAL_GITHUB_TOKEN = 'TWÓJ_TOKEN';
+     window.JOURNAL_GITHUB_REPO = 'użytkownik/nazwa_repo';
+     // opcjonalnie
+     window.JOURNAL_GITHUB_BRANCH = 'main';
+   </script>
+   ```
+
+3. Każde wywołanie `journal.write()` spowoduje dopisanie wpisu do pliku
+   `journal.json` w podanym repozytorium.
+
+---
+
 ## 👤 Autor i Kontakt
 
 **Piotr Krokosz (Krokiet)**  
