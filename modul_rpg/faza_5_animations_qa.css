@@ -1,0 +1,72 @@
+/* ===== FAZA 5: Animations & UI Effects ===== */
+
+/* 1) CRT Scanline Overlay */
+@keyframes scanline {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+.scanline-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.05) 0px,
+    rgba(0,0,0,0.05) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  animation: scanline 1s linear infinite;
+}
+
+/* 2) Header & Footer Flicker */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.85; }
+}
+
+.terminal-header,
+.terminal-footer {
+  animation: flicker 3s infinite;
+}
+
+/* 3) Glitch Text Effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    opacity: 1;
+    text-shadow: none;
+  }
+  20% {
+    transform: translate(-1px, 1px);
+    opacity: 0.9;
+    text-shadow: 1px 1px var(--glitch-red);
+  }
+  40% {
+    transform: translate(1px, -1px);
+    opacity: 0.8;
+    text-shadow: -1px -1px var(--neon-cyan);
+  }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); opacity: 1; text-shadow: none; }
+}
+
+.glitch-effect {
+  display: inline-block;
+  animation: glitch 2s infinite;
+}
+
+/* ===== QA Checklist =====
+1. Verify scanline overlay covers entire viewport without scrolling offsets.
+2. Ensure flicker animation is subtle and not distracting.
+3. Test glitch-effect on multiple text elements for readability.
+4. Check performance impact on low-end devices.
+5. Validate responsiveness across breakpoints.
+6. Confirm that animations degrade gracefully when disabled.
+============================================= */

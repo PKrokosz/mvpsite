@@ -1,0 +1,33 @@
+<!-- FAZA 2: Dynamiczne ładowanie i renderowanie danych -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glitchwave Terminal - Phase 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="glitchwave-terminal">
+    <header class="terminal-header">██ GLITCHWAVE INTERFACE // SubEcho Vault ██</header>
+    <div class="terminal-shell" id="terminal-shell"></div>
+    <aside class="profile-pane" id="profile-pane"></aside>
+    <footer class="terminal-footer">[STATUS] NET-LINK ACTIVE — SLOT: 0x01</footer>
+  </div>
+
+  <script type="module">
+    import { Journal } from './js/journal.js';
+    import { Profile } from './js/profile.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Autoryzacja użytkownika (demo z krokiet)
+      const user = 'KROKIET';
+      // Inicjalizacja profilu
+      await Profile.init(user, document.getElementById('profile-pane'));
+      // Inicjalizacja dziennika
+      await Journal.init(user, document.getElementById('terminal-shell'));
+    });
+  </script>
+</body>
+</html>
