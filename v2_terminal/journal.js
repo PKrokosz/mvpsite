@@ -22,7 +22,8 @@
   }
 
   function write(entryText, author='anon'){
-    const entry = { timestamp: Date.now(), author, entry: entryText };
+    if (!entryText.trim()) return null;
+    const entry = { timestamp: new Date().toISOString(), author, entry: entryText };
     entries.push(entry);
     save();
     return entry;
