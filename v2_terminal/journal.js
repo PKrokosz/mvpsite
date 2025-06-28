@@ -6,7 +6,7 @@
     return fetch(JOURNAL_PATH)
       .then(r => r.json())
       .then(data => {
-        entries = data.entries || [];
+        entries = Array.isArray(data) ? data : [];
         try{ localStorage.setItem('journalCache', JSON.stringify(entries)); }catch(e){}
       })
       .catch(() => {
